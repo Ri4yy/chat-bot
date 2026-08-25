@@ -1,0 +1,16 @@
+{
+  "name": "chat-bot-platform",
+  "private": true,
+  "workspaces": [
+    "admin",
+    "widget"
+  ],
+  "scripts": {
+    "dev": "npx turbo run dev",
+    "build": "npx turbo run build"
+  },
+  "devDependencies": {
+    "turbo": "latest"
+  },
+  "packageManager": "npm@10.8.1"
+}
