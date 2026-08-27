@@ -92,16 +92,16 @@ export async function POST(req: Request) {
       }
 
       // Отправляем в OpenRouter
-      const openRouterRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      const openRouterRes = await fetch('https://routerai.ru/api/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          'Authorization': `Bearer ${process.env.ROUTERAI_API_KEY}`,
           'Content-Type': 'application/json',
           'HTTP-Referer': 'http://localhost:3000',
           'X-Title': 'Widget ChatBot'
         },
         body: JSON.stringify({
-          model: 'stealth/ox-alpha',
+          model: 'openai/gpt-5.6-luna',
           messages: [
             { 
               role: 'system', 

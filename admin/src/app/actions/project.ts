@@ -49,17 +49,16 @@ export async function createProject(formData: FormData) {
 export async function updateProjectSettings(projectId: string, formData: FormData) {
   const supabase = await createClient()
 
-  const name = formData.get('name') as string
-  const theme_color = formData.get('theme_color') as string
-  const welcome_message = formData.get('welcome_message') as string
-  const system_prompt = formData.get('system_prompt') as string
-  const tone = formData.get('tone') as string
-  const rules = formData.getAll('rules') as string[]
-  const openrouter_api_key = formData.get('openrouter_api_key') as string | null
+  const updateData: any = {}
+
+  if (formData.has('name')) updateData.name = formData.get('name') as string
+  if (formData.has('theme_color')) updateData.theme_color = formData.get('theme_color') as string
+  if (formData.has('welcome_message')) updateData.welcome_message = formData.get('welcome_message') as string
+  if (formData.has('system_prompt')) updateData.system_prompt = formData.get('system_prompt') as string
+  if (formData.has('tone')) updateData.tone = formData.get('tone') as string
+  if (formData.has('rules')) updateData.rules = formData.getAll('rules') as string[]
+
   const icon = formData.get('icon') as File | null
-
-  let icon_url = undefined
-
   if (icon && icon.size > 0) {
     const fileExt = icon.name.split('.').pop()
     const fileName = `${projectId}-${Date.now()}.${fileExt}`
@@ -77,15 +76,22 @@ export async function updateProjectSettings(projectId: string, formData: FormDat
       .from('icons')
       .getPublicUrl(fileName)
 
-    icon_url = publicUrlData.publicUrl
+    updateData.icon_url = publicUrlData.publicUrl
   }
 
-  const updateData: any = { name, theme_color, welcome_message, system_prompt, tone, rules }
-  if (icon_url !== undefined) {
-    updateData.icon_url = icon_url
+  if (formData.has('openrouter_api_key')) {
+    const key = formData.get('openrouter_api_key') as string
+    if (key !== '********') {
+      updateData.openrouter_api_key = key.trim() ? encrypt(key.trim()) : null
+    }
   }
-  if (openrouter_api_key !== null && openrouter_api_key !== '********') {
-    updateData.openrouter_api_key = openrouter_api_key.trim() ? encrypt(openrouter_api_key.trim()) : null
+
+  if (formData.has('b24_webhook_url')) {
+    updateData.b24_webhook_url = formData.get('b24_webhook_url') as string
+  }
+
+  if (formData.has('amo_webhook_url')) {
+    updateData.amo_webhook_url = formData.get('amo_webhook_url') as string
   }
 
   const { error } = await supabase

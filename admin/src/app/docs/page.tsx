@@ -134,7 +134,7 @@ function IntroSection() {
             <Coins size={20} />
           </div>
           <h3 className="text-lg font-bold mb-2">Оплата токенами</h3>
-          <p className="text-zinc-500 text-sm leading-relaxed">Система работает на базе передовых нейросетей через OpenRouter API. Вы платите напрямую провайдеру только за использованные токены ИИ.</p>
+          <p className="text-zinc-500 text-sm leading-relaxed">Система работает на базе передовых нейросетей через RouterAI API. Вы платите напрямую провайдеру только за использованные токены ИИ.</p>
         </motion.div>
       </div>
     </div>
@@ -169,7 +169,7 @@ function StartSection() {
             step: 3, 
             icon: Key, 
             title: 'Подключите мозг (API Ключ)', 
-            desc: 'Во вкладке "Интеграции" вставьте ваш личный токен от сервиса OpenRouter. Именно он дает боту доступ к передовым нейросетям.',
+            desc: 'Во вкладке "Интеграции" вставьте ваш личный токен от сервиса RouterAI. Именно он дает боту доступ к передовым нейросетям.',
             color: 'bg-amber-500'
           }
         ].map((s) => {
@@ -549,7 +549,7 @@ function TokensSection() {
       <Card className="bg-zinc-900 border-zinc-800 shadow-sm border-t-4 border-t-amber-500">
         <CardContent className="p-6 space-y-4">
           <p className="text-zinc-300 text-sm">
-            Платформа работает через OpenRouter. Каждый раз, когда бот отправляет сообщение или выполняет фоновые задачи (например, аналитику), расходуются токены с вашего баланса OpenRouter.
+            Платформа работает через RouterAI. Каждый раз, когда бот отправляет сообщение или выполняет фоновые задачи (например, аналитику), расходуются токены с вашего баланса RouterAI.
           </p>
           
           <h3 className="text-lg font-bold text-white pt-4">Где используются токены?</h3>

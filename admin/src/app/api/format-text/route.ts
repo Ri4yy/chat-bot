@@ -5,9 +5,9 @@ import { createOpenAI } from '@ai-sdk/openai'
 import { decrypt } from '@/lib/encryption'
 
 function getOpenRouter(apiKey?: string | null) {
-  const finalKey = (apiKey ? decrypt(apiKey) : null) || process.env.OPENROUTER_API_KEY
+  const finalKey = (apiKey ? decrypt(apiKey) : null) || process.env.ROUTERAI_API_KEY
   return createOpenAI({
-    baseURL: 'https://openrouter.ai/api/v1',
+    baseURL: 'https://routerai.ru/api/v1',
     apiKey: finalKey,
     headers: {
       'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
@@ -33,14 +33,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Text is required' }, { status: 400 })
     }
 
-    let openrouterApiKey = null
+    let routeraiApiKey = null
     if (projectId) {
       const { data: project } = await supabase.from('projects').select('openrouter_api_key').eq('id', projectId).single()
-      if (project) {
-        openrouterApiKey = project.openrouter_api_key
+      if (project?.openrouter_api_key) {
+        routeraiApiKey = project.openrouter_api_key
       }
     }
-    const openrouter = getOpenRouter(openrouterApiKey)
+    const openrouter = getOpenRouter(routeraiApiKey)
 
     // Check token usage
     const { data: usageData, error: usageError } = await supabase
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
 
     // Call LLM
     const { text: formattedText, usage } = await generateText({
-      model: openrouter('stealth/ox-alpha'), // Free model requested by user
+      model: openrouter('openai/gpt-5.6-luna'), // Free model requested by user
       system: systemPrompt,
       prompt: text,
       temperature: 0.2,

@@ -6,9 +6,9 @@ import { generateEmbedding } from '@/lib/embeddings'
 import { decrypt } from '@/lib/encryption'
 
 function getOpenRouter(apiKey?: string | null) {
-  const finalKey = (apiKey ? decrypt(apiKey) : null) || process.env.OPENROUTER_API_KEY
+  const finalKey = (apiKey ? decrypt(apiKey) : null) || process.env.ROUTERAI_API_KEY
   return createOpenAI({
-    baseURL: 'https://openrouter.ai/api/v1',
+    baseURL: 'https://routerai.ru/api/v1',
     apiKey: finalKey,
     headers: {
       'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
@@ -98,7 +98,7 @@ export async function POST(req: Request) {
             ${chatHistoryText}`
 
             const { text: summaryText } = await generateText({
-              model: openrouter('stealth/ox-alpha'),
+              model: openrouter('openai/gpt-5.6-luna'),
               prompt: summaryPrompt,
               temperature: 0.1
             })
@@ -218,7 +218,7 @@ ${contextText}
 `
     // 5. Call LLM with streaming
     const result = await streamText({
-      model: openrouter('stealth/ox-alpha'),
+      model: openrouter('openai/gpt-5.6-luna'),
       system: systemPrompt,
       messages: messages,
       temperature: 0.7, // Adjust temperature for better roleplay/rules performance

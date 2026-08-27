@@ -32,10 +32,10 @@ export function ProjectIntegrationsForm({ project }: { project: any }) {
         <div className="space-y-2">
           <Label htmlFor="openrouter_api_key" className="text-zinc-300 font-semibold text-lg flex items-center gap-2">
             <Plug size={18} className="text-zinc-400" />
-            Свой API Ключ (OpenRouter)
+            Свой API Ключ (RouterAI)
           </Label>
           <p className="text-sm text-zinc-500">
-            Для работы бота на вашем аккаунте вставьте ваш личный ключ OpenRouter. Ключ хранится в зашифрованном виде.
+            Для работы бота на вашем аккаунте вставьте ваш личный ключ RouterAI. Ключ хранится в зашифрованном виде.
             <br/>Если ключ не указан — будет использоваться резервный тестовый ключ платформы.
           </p>
           <Input 
