@@ -158,15 +158,20 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-zinc-700 rounded-full;
+    @apply bg-slate-300 dark:bg-zinc-700 rounded-full;
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-zinc-600;
+    @apply bg-slate-400 dark:bg-zinc-600;
   }
   
-  /* For Firefox */
+  /* For Firefox (Firefox doesn't easily support dynamic colors via Tailwind, but let's try CSS variables) */
   * {
     scrollbar-width: thin;
+  }
+  .dark * {
     scrollbar-color: #3f3f46 transparent;
+  }
+  html:not(.dark) * {
+    scrollbar-color: #cbd5e1 transparent;
   }
 }
