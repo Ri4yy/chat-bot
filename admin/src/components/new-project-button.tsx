@@ -48,31 +48,33 @@ export function NewProjectButton({ isLimitReached, maxProjects }: { isLimitReach
       >
         + Новый Проект
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] p-6 sm:p-8 bg-zinc-950 border-zinc-800 rounded-2xl">
+      <DialogContent className="sm:max-w-[500px] p-6 sm:p-8 bg-white dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 rounded-2xl">
         <form onSubmit={onSubmit}>
           <DialogHeader className="space-y-3 text-left">
-            <DialogTitle className="text-2xl font-semibold text-slate-100">Создать новый ИИ Виджет</DialogTitle>
-            <DialogDescription className="text-base text-zinc-400">
+            <DialogTitle className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Создать новый ИИ Виджет</DialogTitle>
+            <DialogDescription className="text-base text-slate-500 dark:text-zinc-400">
               Придумайте название для вашего нового ИИ-ассистента.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-6 py-8">
             <div className="grid gap-3">
-              <Label htmlFor="name" className="text-sm font-medium text-slate-200">Название проекта</Label>
-              <Input 
-                id="name" 
-                name="name" 
-                placeholder="напр. Мой классный магазин" 
-                required 
-                className="bg-zinc-900/80 border-zinc-800 h-14 px-4 text-base focus-visible:ring-primary/50 text-slate-100 placeholder:text-zinc-500 rounded-xl transition-all"
+              <Label htmlFor="name" className="text-sm font-medium text-slate-900 dark:text-slate-700 dark:text-slate-200">
+                Название проекта
+              </Label>
+              <Input
+                id="name"
+                name="name"
+                placeholder="напр. Мой классный магазин"
+                required
+                className="h-12 bg-slate-50 dark:bg-zinc-900/50 border-slate-200 dark:border-zinc-800 focus-visible:ring-primary dark:focus-visible:ring-zinc-700 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-zinc-500 px-4"
               />
             </div>
           </div>
-          <div className="w-full pt-2">
-            <Button type="submit" disabled={isLoading} className="w-full h-14 text-base font-semibold rounded-xl bg-slate-100 text-zinc-900 hover:bg-slate-200 transition-colors">
+          <DialogFooter className="pt-4 bg-transparent border-none sm:justify-center">
+            <Button type="submit" disabled={isLoading} className="w-full h-12 text-base font-medium rounded-xl bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors">
               {isLoading ? 'Создание...' : 'Создать'}
             </Button>
-          </div>
+          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>

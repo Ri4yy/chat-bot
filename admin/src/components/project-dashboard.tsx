@@ -208,16 +208,16 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
       {/* Top Bar with range switch */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-100">Аналитика</h2>
-          <p className="text-zinc-400 mt-1">Ключевые показатели работы ИИ-ассистента.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Аналитика</h2>
+          <p className="text-slate-500 dark:text-zinc-400 mt-1">Ключевые показатели работы ИИ-ассистента.</p>
         </div>
         
-        <div className="flex flex-wrap bg-[#09090b] p-1 rounded-lg border border-zinc-800/50 shadow-sm">
+        <div className="flex flex-wrap bg-white dark:bg-[#09090b] p-1 rounded-lg border border-slate-200 dark:border-zinc-800/50 shadow-sm">
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={() => setTimeRange('today')}
-            className={`text-xs px-3 h-8 ${timeRange === 'today' ? 'bg-zinc-800/80 text-white shadow-sm' : 'text-zinc-400 hover:text-zinc-300'}`}
+            className={`text-xs px-3 h-8 ${timeRange === 'today' ? 'bg-white dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm shadow-sm' : 'text-slate-700 dark:text-zinc-400'}`}
           >
             Сегодня
           </Button>
@@ -225,7 +225,7 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
             variant="ghost" 
             size="sm" 
             onClick={() => setTimeRange('week')}
-            className={`text-xs px-3 h-8 ${timeRange === 'week' ? 'bg-zinc-800/80 text-white shadow-sm' : 'text-zinc-400 hover:text-zinc-300'}`}
+            className={`text-xs px-3 h-8 ${timeRange === 'week' ? 'bg-white dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm shadow-sm' : 'text-slate-700 dark:text-zinc-400'}`}
           >
             Неделя
           </Button>
@@ -233,7 +233,7 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
             variant="ghost" 
             size="sm" 
             onClick={() => setTimeRange('month')}
-            className={`text-xs px-3 h-8 ${timeRange === 'month' ? 'bg-zinc-800/80 text-white shadow-sm' : 'text-zinc-400 hover:text-zinc-300'}`}
+            className={`text-xs px-3 h-8 ${timeRange === 'month' ? 'bg-white dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm shadow-sm' : 'text-slate-700 dark:text-zinc-400'}`}
           >
             Месяц
           </Button>
@@ -241,26 +241,26 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
       </div>
 
       {isLoading ? (
-        <Card className="bg-zinc-950 border-zinc-800">
+        <Card className="bg-white dark:bg-zinc-950 border-slate-200 dark:border-zinc-800">
           <CardContent className="p-8 flex justify-center items-center min-h-[400px]">
-            <Loader2 className="w-8 h-8 text-zinc-500 animate-spin" />
+            <Loader2 className="w-8 h-8 text-slate-500 dark:text-zinc-500 animate-spin" />
           </CardContent>
         </Card>
       ) : (
         <>
           {/* Metrics Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Card className="bg-[#09090b] border-zinc-800/50 hover:border-zinc-700/50 transition-colors shadow-none">
+            <Card className="bg-white dark:bg-[#09090b] border-slate-200 dark:border-zinc-800/50 hover:border-slate-300 dark:border-zinc-700/50 transition-colors shadow-none">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-zinc-400">Диалоги ({periodLabels[timeRange]})</CardTitle>
-                <MessageSquareText className="w-4 h-4 text-zinc-500" />
+                <CardTitle className="text-sm font-medium text-slate-500 dark:text-zinc-400">Диалоги ({periodLabels[timeRange]})</CardTitle>
+                <MessageSquareText className="w-4 h-4 text-slate-500 dark:text-zinc-500" />
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                   <div>
-                    <div className="text-3xl font-bold text-slate-100">{stats?.currentSessions.toLocaleString()}</div>
-                    <p className="text-xs text-zinc-500 mt-2">
-                      <span className="text-zinc-300">Запросов от клиентов</span>
+                    <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">{stats?.currentSessions.toLocaleString()}</div>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500 mt-2">
+                      <span className="text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300">Запросов от клиентов</span>
                     </p>
                   </div>
                   <div className="mb-1">{renderTrendBadge(stats?.sessionsTrend || 0)}</div>
@@ -268,17 +268,17 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
               </CardContent>
             </Card>
 
-            <Card className="bg-[#09090b] border-zinc-800/50 hover:border-zinc-700/50 transition-colors shadow-none">
+            <Card className="bg-white dark:bg-[#09090b] border-slate-200 dark:border-zinc-800/50 hover:border-slate-300 dark:border-zinc-700/50 transition-colors shadow-none">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-zinc-400">Собрано Лидов ({periodLabels[timeRange]})</CardTitle>
-                <Users className="w-4 h-4 text-zinc-500" />
+                <CardTitle className="text-sm font-medium text-slate-500 dark:text-zinc-400">Собрано Лидов ({periodLabels[timeRange]})</CardTitle>
+                <Users className="w-4 h-4 text-slate-500 dark:text-zinc-500" />
               </CardHeader>
               <CardContent>
                 <div className="flex items-end justify-between">
                   <div>
-                    <div className="text-3xl font-bold text-slate-100">{stats?.currentLeads.toLocaleString()}</div>
-                    <p className="text-xs text-zinc-500 mt-2">
-                      <span className="text-zinc-300">Оставлено контактов</span>
+                    <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">{stats?.currentLeads.toLocaleString()}</div>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500 mt-2">
+                      <span className="text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300">Оставлено контактов</span>
                     </p>
                   </div>
                   <div className="mb-1">{renderTrendBadge(stats?.leadsTrend || 0)}</div>
@@ -286,17 +286,17 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
               </CardContent>
             </Card>
 
-            <Card className="bg-[#09090b] border-zinc-800/50 hover:border-zinc-700/50 transition-colors shadow-none">
+            <Card className="bg-white dark:bg-[#09090b] border-slate-200 dark:border-zinc-800/50 hover:border-slate-300 dark:border-zinc-700/50 transition-colors shadow-none">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-zinc-400">Конверсия ({periodLabels[timeRange]})</CardTitle>
-                <Activity className="w-4 h-4 text-zinc-500" />
+                <CardTitle className="text-sm font-medium text-slate-500 dark:text-zinc-400">Конверсия ({periodLabels[timeRange]})</CardTitle>
+                <Activity className="w-4 h-4 text-slate-500 dark:text-zinc-500" />
               </CardHeader>
               <CardContent>
                 <div className="flex items-end justify-between">
                   <div>
-                    <div className="text-3xl font-bold text-slate-100">{stats?.currentConversion.toFixed(1)}%</div>
-                    <p className="text-xs text-zinc-500 mt-2">
-                      <span className="text-zinc-300">Доля успешных сессий</span>
+                    <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">{stats?.currentConversion.toFixed(1)}%</div>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500 mt-2">
+                      <span className="text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300">Доля успешных сессий</span>
                     </p>
                   </div>
                   <div className="mb-1">{renderTrendBadge(stats?.conversionTrend || 0, true)}</div>
@@ -306,15 +306,15 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
           </div>
 
           {/* Chart Area */}
-          <Card className="bg-[#09090b] border-zinc-800/50 shadow-none">
-            <CardHeader className="flex flex-row items-center justify-between border-b border-zinc-800/50 pb-4 mb-4">
+          <Card className="bg-white dark:bg-[#09090b] border-slate-200 dark:border-zinc-800/50 shadow-none">
+            <CardHeader className="flex flex-row items-center justify-between border-b border-slate-200 dark:border-zinc-800/50 pb-4 mb-4">
               <div>
-                <CardTitle className="text-lg font-semibold text-slate-100">Активность пользователей</CardTitle>
-                <CardDescription className="text-zinc-400 mt-1">График диалогов и собранных лидов {periodDesc[timeRange]}</CardDescription>
+                <CardTitle className="text-lg font-semibold text-slate-900 dark:text-slate-100">Активность пользователей</CardTitle>
+                <CardDescription className="text-slate-500 dark:text-zinc-400 mt-1">График диалогов и собранных лидов {periodDesc[timeRange]}</CardDescription>
               </div>
               <div className="flex gap-2">
-                <div className="flex items-center text-xs text-zinc-400"><span className="w-2 h-2 rounded-full bg-blue-500 mr-2"></span>Диалоги</div>
-                <div className="flex items-center text-xs text-zinc-400"><span className="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>Лиды</div>
+                <div className="flex items-center text-xs text-slate-500 dark:text-zinc-400"><span className="w-2 h-2 rounded-full bg-blue-500 mr-2"></span>Диалоги</div>
+                <div className="flex items-center text-xs text-slate-500 dark:text-zinc-400"><span className="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>Лиды</div>
               </div>
             </CardHeader>
             <CardContent>
@@ -331,7 +331,7 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
                         <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#27272a" />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" className="text-slate-700 dark:text-slate-200 dark:text-zinc-800" />
                     <XAxis 
                       dataKey="date" 
                       axisLine={false} 
@@ -345,8 +345,22 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
                       tick={{ fontSize: 12, fill: '#71717a' }} 
                     />
                     <Tooltip 
-                      contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', color: '#f4f4f5' }}
-                      itemStyle={{ fontSize: '14px' }}
+                      content={({ active, payload, label }) => {
+                        if (active && payload && payload.length) {
+                          return (
+                            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-3 rounded-lg shadow-sm text-sm text-slate-900 dark:text-slate-100">
+                              <p className="font-medium mb-1">{label}</p>
+                              {payload.map((entry, index) => (
+                                <p key={index} style={{color: entry.color}}>
+                                  {entry.name}: {entry.value}
+                                </p>
+                              ))}
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                      cursor={{fill: 'transparent'}}
                     />
                     <Area 
                       type="monotone" 

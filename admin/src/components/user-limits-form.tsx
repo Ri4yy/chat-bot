@@ -36,12 +36,12 @@ export function UserLimitsForm({ user }: { user: any }) {
   }
 
   return (
-    <Card className="bg-zinc-900/50 border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800 h-full flex flex-col">
       <CardHeader>
         <CardTitle>Права и лимиты</CardTitle>
         <CardDescription>Управление доступом клиента к системе</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-6 flex-1">
         <div className="space-y-2">
           <Label htmlFor="max_projects">Лимит создаваемых ботов</Label>
           <Input 
@@ -49,21 +49,22 @@ export function UserLimitsForm({ user }: { user: any }) {
             type="number" 
             value={maxProjects}
             onChange={(e) => setMaxProjects(e.target.value)}
-            className="bg-zinc-950 border-zinc-800 text-zinc-100"
+            className="bg-white dark:bg-zinc-950 border-slate-300 dark:border-zinc-800 text-slate-900 dark:text-slate-100"
           />
-          <p className="text-xs text-zinc-500">Установите 0, чтобы запретить создание проектов.</p>
+          <p className="text-xs text-slate-500 dark:text-zinc-500">Установите 0, чтобы запретить создание проектов.</p>
         </div>
 
-        <div className="flex items-center justify-between p-4 bg-zinc-950/50 border border-zinc-800 rounded-lg">
+        <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-zinc-950/50 border border-slate-200 dark:border-zinc-800 rounded-lg">
           <div className="space-y-0.5">
             <Label className="text-base">Активный аккаунт</Label>
-            <p className="text-sm text-zinc-400">
+            <p className="text-sm text-slate-500 dark:text-zinc-400">
               Если отключить, проекты пользователя перестанут работать.
             </p>
           </div>
           <Switch 
             checked={isActive} 
-            onCheckedChange={setIsActive} 
+            onCheckedChange={setIsActive}
+            className="cursor-pointer"
           />
         </div>
 
@@ -77,12 +78,12 @@ export function UserLimitsForm({ user }: { user: any }) {
           <Switch 
             checked={isSuperAdmin} 
             onCheckedChange={setIsSuperAdmin} 
-            className="data-[state=checked]:bg-amber-500"
+            className="data-[state=checked]:bg-amber-500 cursor-pointer"
           />
         </div>
 
       </CardContent>
-      <CardFooter className="bg-zinc-900/50 border-t border-zinc-800">
+      <CardFooter className="bg-slate-50 dark:bg-zinc-900/50 border-t border-slate-200 dark:border-zinc-800">
         <Button onClick={handleSave} disabled={loading} className="w-full">
           {loading ? 'Сохранение...' : (
             <>

@@ -197,23 +197,23 @@ export function KnowledgeParserUI({ projectId, onComplete, onProcessingChange }:
   return (
     <div className="space-y-6">
       <Tabs defaultValue="website" className="w-full">
-        <TabsList className="w-full grid grid-cols-2 lg:grid-cols-4 mb-4 bg-zinc-900 border border-zinc-800 !h-auto p-1 gap-1">
-          <TabsTrigger value="website" className="!h-auto py-1.5 data-[state=active]:bg-zinc-800 data-[state=active]:text-white">Сайт</TabsTrigger>
-          <TabsTrigger value="sitemap" className="!h-auto py-1.5 data-[state=active]:bg-zinc-800 data-[state=active]:text-white">Sitemap</TabsTrigger>
-          <TabsTrigger value="document" className="!h-auto py-1.5 data-[state=active]:bg-zinc-800 data-[state=active]:text-white text-wrap">Документ (Текст)</TabsTrigger>
-          <TabsTrigger value="feed" className="!h-auto py-1.5 data-[state=active]:bg-zinc-800 data-[state=active]:text-white text-wrap">Товарный фид</TabsTrigger>
+        <TabsList className="w-full grid grid-cols-2 lg:grid-cols-4 mb-4 bg-slate-200 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-800 !h-auto p-1 gap-1">
+          <TabsTrigger value="website" className="!h-auto py-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:text-slate-900 dark:data-[state=active]:text-white data-[state=active]:shadow-sm">Сайт</TabsTrigger>
+          <TabsTrigger value="sitemap" className="!h-auto py-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:text-slate-900 dark:data-[state=active]:text-white data-[state=active]:shadow-sm">Sitemap</TabsTrigger>
+          <TabsTrigger value="document" className="!h-auto py-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:text-slate-900 dark:data-[state=active]:text-white data-[state=active]:shadow-sm text-wrap">Документ (Текст)</TabsTrigger>
+          <TabsTrigger value="feed" className="!h-auto py-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:text-slate-900 dark:data-[state=active]:text-white data-[state=active]:shadow-sm text-wrap">Товарный фид</TabsTrigger>
         </TabsList>
         
         <TabsContent value="website" className="space-y-4">
           <div className="space-y-2">
-            <Label className="text-zinc-300 text-sm">Ссылка на сайт</Label>
+            <Label className="text-slate-600 dark:text-zinc-300 text-sm">Ссылка на сайт</Label>
             <div className="flex gap-2">
               <Input 
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://example.com"
                 disabled={isLoading || isCrawling}
-                className="bg-zinc-950 border-zinc-800 text-slate-200 focus-visible:ring-primary/50"
+                className="bg-white dark:bg-zinc-950 border-slate-300 dark:border-zinc-800 text-slate-900 dark:text-slate-700 dark:text-slate-200 focus-visible:ring-primary/50"
               />
               <Button onClick={() => handleFetchLinks('crawl')} disabled={isLoading || isCrawling} className="bg-primary hover:bg-primary/90">
                 {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Globe className="w-4 h-4 mr-2" />}
@@ -225,14 +225,14 @@ export function KnowledgeParserUI({ projectId, onComplete, onProcessingChange }:
 
         <TabsContent value="sitemap" className="space-y-4">
           <div className="space-y-2">
-            <Label className="text-zinc-300 text-sm">Ссылка на sitemap.xml</Label>
+            <Label className="text-slate-600 dark:text-zinc-300 text-sm">Ссылка на sitemap.xml</Label>
             <div className="flex gap-2">
               <Input 
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://example.com/sitemap.xml"
                 disabled={isLoading || isCrawling}
-                className="bg-zinc-950 border-zinc-800 text-slate-200 focus-visible:ring-primary/50"
+                className="bg-white dark:bg-zinc-950 border-slate-300 dark:border-zinc-800 text-slate-900 dark:text-slate-700 dark:text-slate-200 focus-visible:ring-primary/50"
               />
               <Button onClick={() => handleFetchLinks('sitemap')} disabled={isLoading || isCrawling} className="bg-primary hover:bg-primary/90">
                 {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ListTree className="w-4 h-4 mr-2" />}
@@ -249,7 +249,7 @@ export function KnowledgeParserUI({ projectId, onComplete, onProcessingChange }:
             onDrop={(e) => { e.preventDefault(); setIsDragging(false); const f = e.dataTransfer.files?.[0]; if(f) handleFeedUpload(f) }}
             onClick={() => fileInputRef.current?.click()}
             className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
-              isDragging ? 'border-primary bg-primary/5' : 'border-zinc-800 hover:border-zinc-700 bg-zinc-950/50'
+              isDragging ? 'border-primary bg-primary/5' : 'border-slate-300 dark:border-zinc-800 hover:border-zinc-700 bg-white dark:bg-zinc-950/50'
             }`}
           >
             <input type="file" ref={fileInputRef} className="hidden" accept=".xlsx,.csv,.xls" onChange={(e) => {
@@ -257,11 +257,11 @@ export function KnowledgeParserUI({ projectId, onComplete, onProcessingChange }:
               if (file) handleFeedUpload(file)
             }} />
             <div className="flex flex-col items-center justify-center space-y-4">
-              <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center">
-                <FileSpreadsheet className="w-6 h-6 text-zinc-400" />
+              <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-zinc-900 flex items-center justify-center">
+                <FileSpreadsheet className="w-6 h-6 text-slate-500 dark:text-zinc-400" />
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-medium text-slate-200">Перетащите Excel фид сюда</p>
+                <p className="text-sm font-medium text-slate-900 dark:text-slate-700 dark:text-slate-200">Перетащите Excel фид сюда</p>
                 <p className="text-xs text-zinc-500">или нажмите для выбора файла (XLSX, CSV)</p>
               </div>
             </div>
@@ -275,7 +275,7 @@ export function KnowledgeParserUI({ projectId, onComplete, onProcessingChange }:
             onDrop={(e) => { e.preventDefault(); setIsDragging(false); const f = e.dataTransfer.files?.[0]; if(f) handleFileUpload(f) }}
             onClick={() => fileInputRef.current?.click()}
             className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
-              isDragging ? 'border-primary bg-primary/5' : 'border-zinc-800 hover:border-zinc-700 bg-zinc-950/50'
+              isDragging ? 'border-primary bg-primary/5' : 'border-slate-300 dark:border-zinc-800 hover:border-zinc-700 bg-white dark:bg-zinc-950/50'
             }`}
           >
             <input type="file" ref={fileInputRef} className="hidden" accept=".pdf,.txt,.docx,.md,.sql" onChange={(e) => {
@@ -283,11 +283,11 @@ export function KnowledgeParserUI({ projectId, onComplete, onProcessingChange }:
               if (file) handleFileUpload(file)
             }} />
             <div className="flex flex-col items-center justify-center space-y-4">
-              <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center">
-                <FileText className="w-6 h-6 text-zinc-400" />
+              <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-zinc-900 flex items-center justify-center">
+                <FileText className="w-6 h-6 text-slate-500 dark:text-zinc-400" />
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-medium text-slate-200">Перетащите документ сюда</p>
+                <p className="text-sm font-medium text-slate-900 dark:text-slate-700 dark:text-slate-200">Перетащите документ сюда</p>
                 <p className="text-xs text-zinc-500">или нажмите для выбора файла (PDF, TXT, DOCX)</p>
               </div>
             </div>
@@ -297,12 +297,12 @@ export function KnowledgeParserUI({ projectId, onComplete, onProcessingChange }:
         {/* Общие настройки для парсеров (Сайт / Sitemap) */}
         {(url && crawledLinks.length === 0) && (
           <div className="space-y-2 mt-4">
-            <Label className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">Исключения (через запятую)</Label>
+            <Label className="text-slate-500 dark:text-zinc-400 text-xs uppercase font-semibold tracking-wider">Исключения (через запятую)</Label>
             <Input 
                 value={exclusions}
                 onChange={(e) => setExclusions(e.target.value)}
                 placeholder="/catalog/, ?sort=, /blog/"
-                className="bg-zinc-950 border-zinc-800 text-slate-300 text-sm focus-visible:ring-primary/50"
+                className="bg-white dark:bg-zinc-950 border-slate-300 dark:border-zinc-800 text-slate-500 dark:text-slate-300 text-sm focus-visible:ring-primary/50"
             />
             <p className="text-xs text-zinc-500">Ссылки, содержащие эти строки, не будут добавлены в базу.</p>
           </div>
@@ -313,8 +313,8 @@ export function KnowledgeParserUI({ projectId, onComplete, onProcessingChange }:
       {crawledLinks.length > 0 && (
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-sm font-medium text-slate-200 flex items-center gap-2">
-              <LinkIcon className="w-4 h-4 text-zinc-400" />
+            <h3 className="text-sm font-medium text-slate-900 dark:text-slate-700 dark:text-slate-200 flex items-center gap-2">
+              <LinkIcon className="w-4 h-4 text-slate-500 dark:text-zinc-400" />
               Найдено страниц: {crawledLinks.length}
             </h3>
             <div className="flex gap-2">
@@ -323,7 +323,7 @@ export function KnowledgeParserUI({ projectId, onComplete, onProcessingChange }:
                 size="sm" 
                 disabled={isCrawling || isLoading}
                 onClick={() => setCrawledLinks(crawledLinks.map(l => ({ ...l, checked: false })))}
-                className="text-xs h-8 border-zinc-800 text-zinc-400 hover:text-white bg-zinc-950"
+                className="text-xs h-8 border-slate-300 dark:border-zinc-800 text-slate-600 dark:text-zinc-400 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-zinc-800 dark:hover:text-white bg-white dark:bg-zinc-950"
               >
                 Снять все
               </Button>
@@ -332,22 +332,22 @@ export function KnowledgeParserUI({ projectId, onComplete, onProcessingChange }:
                 size="sm" 
                 disabled={isCrawling || isLoading}
                 onClick={() => setCrawledLinks(crawledLinks.map(l => ({ ...l, checked: true })))}
-                className="text-xs h-8 border-zinc-800 text-zinc-400 hover:text-white bg-zinc-950"
+                className="text-xs h-8 border-slate-300 dark:border-zinc-800 text-slate-600 dark:text-zinc-400 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-zinc-800 dark:hover:text-white bg-white dark:bg-zinc-950"
               >
                 Выбрать все
               </Button>
             </div>
           </div>
-          <div className="border border-zinc-800 rounded-lg max-h-[250px] overflow-y-auto bg-zinc-950 p-2 space-y-1 custom-scrollbar">
+          <div className="border border-slate-300 dark:border-zinc-800 rounded-lg max-h-[250px] overflow-y-auto bg-white dark:bg-zinc-950 p-2 space-y-1 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-zinc-700 scrollbar-track-transparent">
             {crawledLinks.map((link, i) => (
-              <div key={i} className="flex items-center space-x-3 p-2 hover:bg-zinc-900/50 rounded-md transition-colors group">
+              <div key={i} className="flex items-center space-x-3 p-2 hover:bg-slate-200 dark:bg-zinc-900/50 rounded-md transition-colors group">
                 <Checkbox 
                   checked={link.checked} 
                   disabled={isCrawling || isLoading}
                   onCheckedChange={() => toggleLink(i)}
                   className="border-zinc-700 data-[state=checked]:bg-primary"
                 />
-                <label className={`text-sm text-zinc-400 truncate flex-1 transition-colors ${(isCrawling || isLoading) ? 'opacity-50 cursor-not-allowed' : 'group-hover:text-slate-300 cursor-pointer'}`} onClick={() => !(isCrawling || isLoading) && toggleLink(i)}>
+                <label className={`text-sm text-slate-500 dark:text-zinc-400 truncate flex-1 transition-colors ${(isCrawling || isLoading) ? 'opacity-50 cursor-not-allowed' : 'group-hover:text-slate-500 dark:text-slate-300 cursor-pointer'}`} onClick={() => !(isCrawling || isLoading) && toggleLink(i)}>
                   {link.url}
                 </label>
               </div>

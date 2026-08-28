@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import ProfileDropdown from '@/components/ui/profile-dropdown'
 
+import { ThemeToggle } from '@/components/theme-toggle'
+
 export async function HeaderProfile() {
   const supabase = await createClient()
 
@@ -31,5 +33,10 @@ export async function HeaderProfile() {
     avatar
   }
 
-  return <ProfileDropdown data={profileData} isSuperAdmin={isSuperAdmin} />
+  return (
+    <div className="flex items-center gap-4">
+      <ThemeToggle />
+      <ProfileDropdown data={profileData} isSuperAdmin={isSuperAdmin} />
+    </div>
+  )
 }

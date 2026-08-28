@@ -68,10 +68,10 @@ export function KnowledgeBaseUpload({ projectId }: { projectId: string }) {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-zinc-900/50 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader>
-          <CardTitle className="text-slate-100">Источники данных (Knowledge Base)</CardTitle>
-          <CardDescription className="text-zinc-400">
+          <CardTitle className="text-slate-900 dark:text-slate-100">Источники данных (Knowledge Base)</CardTitle>
+          <CardDescription className="text-slate-500 dark:text-zinc-400">
             Используйте парсер сайтов или товарных фидов, чтобы быстро наполнить базу знаний ИИ.
           </CardDescription>
         </CardHeader>
@@ -87,20 +87,20 @@ export function KnowledgeBaseUpload({ projectId }: { projectId: string }) {
         </CardContent>
       </Card>
 
-      <Card className="bg-zinc-900/50 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader>
-          <CardTitle className="text-slate-100 flex items-center gap-2">
+          <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <FileText className="w-5 h-5" />
             Ручное редактирование / Текст
           </CardTitle>
-          <CardDescription className="text-zinc-400">
+          <CardDescription className="text-slate-500 dark:text-zinc-400">
             Вы можете вставить текст вручную или отредактировать результаты парсинга перед векторизацией.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 mb-2">
-              <Label htmlFor="kb-text" className="text-zinc-300">Содержимое для векторизации</Label>
+              <Label htmlFor="kb-text" className="text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300">Содержимое для векторизации</Label>
               <div className="flex flex-wrap items-center gap-2 mt-1 lg:mt-0">
                 <span className="text-xs text-amber-500/80">Внимание: ИИ-форматирование расходует токены</span>
                 <Button 
@@ -108,7 +108,7 @@ export function KnowledgeBaseUpload({ projectId }: { projectId: string }) {
                   disabled={isFormatting || !text.trim()} 
                   variant="outline" 
                   size="sm"
-                  className="bg-zinc-950 border-zinc-700 text-zinc-300 hover:text-white"
+                  className="bg-white dark:bg-zinc-950 border-slate-300 dark:border-zinc-700 text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white"
                 >
                   {isFormatting ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : null}
                   Сжать с помощью ИИ
@@ -120,7 +120,7 @@ export function KnowledgeBaseUpload({ projectId }: { projectId: string }) {
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Вставьте сюда любой текст (инструкции, прайсы, правила)..."
-              className="min-h-[250px] font-mono text-sm bg-zinc-950 border-zinc-800 text-slate-300 focus-visible:ring-primary/50"
+              className="min-h-[250px] font-mono text-sm bg-white dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-slate-500 dark:text-slate-300 focus-visible:ring-primary/50"
             />
           </div>
           

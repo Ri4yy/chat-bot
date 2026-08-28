@@ -92,7 +92,7 @@ export function DialogHistory({ projectId }: { projectId: string }) {
 
   if (sessions.length === 0) {
     return (
-      <Card className="bg-zinc-900/50 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader>
           <CardTitle>История диалогов</CardTitle>
           <CardDescription>Здесь пока пусто. Как только кто-то напишет боту, диалог появится здесь.</CardDescription>
@@ -102,19 +102,20 @@ export function DialogHistory({ projectId }: { projectId: string }) {
   }
 
   return (
-    <Card className="bg-zinc-900/50 border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
       <CardHeader className="flex flex-row justify-between items-start">
         <div>
           <CardTitle>История диалогов</CardTitle>
           <CardDescription>Здесь сохраняются все переписки пользователей с виджетом.</CardDescription>
         </div>
-        <div className="flex items-center space-x-2 bg-zinc-900/50 p-2 rounded-md border border-zinc-800">
+        <div className="flex items-center space-x-2 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none p-2 rounded-md border border-slate-200 dark:border-zinc-800">
           <Switch 
             id="leads-mode" 
             checked={onlyLeads} 
-            onCheckedChange={(c) => { setOnlyLeads(c); setPage(1); }} 
+            onCheckedChange={(c) => { setOnlyLeads(c); setPage(1); }}
+            className="cursor-pointer"
           />
-          <Label htmlFor="leads-mode" className="text-zinc-300 cursor-pointer">Только с лидами</Label>
+          <Label htmlFor="leads-mode" className="text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 cursor-pointer">Только с лидами</Label>
         </div>
       </CardHeader>
       <CardContent>
@@ -123,22 +124,22 @@ export function DialogHistory({ projectId }: { projectId: string }) {
             <AccordionItem key={session.id} value={session.id}>
               <AccordionTrigger className="hover:no-underline">
                 <div className="flex justify-between w-full pr-4 text-sm">
-                  <span className="font-medium text-slate-200">
+                  <span className="font-medium text-slate-700 dark:text-slate-200">
                     Сессия от {new Date(session.created_at).toLocaleString('ru-RU')}
                   </span>
-                  <span className="text-zinc-500">
+                  <span className="text-slate-500 dark:text-zinc-500">
                     Сообщений: {session.chat_messages.length}
                   </span>
                 </div>
               </AccordionTrigger>
               <AccordionContent>
-                <div className="space-y-4 p-4 bg-zinc-900/50 rounded-md border border-zinc-800/50 mt-2 max-h-[500px] overflow-y-auto">
+                <div className="space-y-4 p-4 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none rounded-md border border-slate-200 dark:border-zinc-800/50 mt-2 max-h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-zinc-700 scrollbar-track-transparent">
                   {session.chat_messages.map(msg => (
                     <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                       <div className={`max-w-[80%] rounded-lg p-3 text-sm ${
                         msg.role === 'user' 
                           ? 'bg-blue-600 text-white rounded-br-none' 
-                          : 'bg-zinc-800 text-slate-200 rounded-bl-none border border-zinc-700'
+                          : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-200 rounded-bl-none border border-slate-300 dark:border-zinc-700'
                       }`}>
                         <div className="font-semibold text-[10px] opacity-50 mb-1 uppercase tracking-wider">
                           {msg.role === 'user' ? 'Пользователь' : 'AI Assistant'}
@@ -151,7 +152,7 @@ export function DialogHistory({ projectId }: { projectId: string }) {
                     </div>
                   ))}
                   {session.chat_messages.length === 0 && (
-                    <div className="text-zinc-500 text-center py-2 text-sm">Пустой диалог</div>
+                    <div className="text-slate-500 dark:text-zinc-500 text-center py-2 text-sm">Пустой диалог</div>
                   )}
                 </div>
               </AccordionContent>
@@ -160,17 +161,17 @@ export function DialogHistory({ projectId }: { projectId: string }) {
         </Accordion>
         
         {totalPages > 1 && (
-          <div className="flex items-center justify-between mt-6 border-t border-zinc-800 pt-4">
+          <div className="flex items-center justify-between mt-6 border-t border-slate-200 dark:border-zinc-800 pt-4">
             <Button
               variant="outline"
               size="sm"
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1 || loading}
-              className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800"
+              className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100"
             >
               Назад
             </Button>
-            <span className="text-sm text-zinc-400">
+            <span className="text-sm text-slate-500 dark:text-zinc-400">
               Страница {page} из {totalPages}
             </span>
             <Button
@@ -178,7 +179,7 @@ export function DialogHistory({ projectId }: { projectId: string }) {
               size="sm"
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages || loading}
-              className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800"
+              className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100"
             >
               Вперед
             </Button>

@@ -257,7 +257,7 @@ export function OnboardingWizard({ project }: { project: any }) {
   return (
     <div className="w-full flex flex-col gap-6">
       {/* Степы (Навигация) */}
-      <div className={`flex items-center justify-between border-b border-zinc-800 pb-4 overflow-x-auto whitespace-nowrap scrollbar-none transition-opacity ${(isLoading || isScraping) ? 'pointer-events-none opacity-50' : ''}`}>
+      <div className={`flex items-center justify-between border-b border-slate-200 dark:border-zinc-800 pb-4 overflow-x-auto whitespace-nowrap scrollbar-none transition-opacity ${(isLoading || isScraping) ? 'pointer-events-none opacity-50' : ''}`}>
         {[
           { num: 1, label: 'Описание компании' },
           { num: 2, label: 'Настройка модели' },
@@ -266,11 +266,11 @@ export function OnboardingWizard({ project }: { project: any }) {
         ].map((s) => (
           <div key={s.num} className="flex items-center gap-3 shrink-0">
             <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium transition-colors ${
-              step === s.num ? 'bg-slate-200 text-zinc-900' : step > s.num ? 'bg-zinc-800 text-green-400' : 'bg-zinc-800 text-zinc-500'
+              step === s.num ? 'bg-slate-900 dark:bg-slate-200 text-white dark:text-zinc-900' : step > s.num ? 'bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400' : 'bg-white dark:bg-zinc-800 text-slate-500 dark:text-zinc-500 shadow-sm dark:shadow-none'
             }`}>
               {step > s.num ? <CheckCircle2 className="w-5 h-5" /> : s.num}
             </div>
-            <span className={`text-sm font-medium ${step === s.num ? 'text-slate-100' : 'text-zinc-500'}`}>
+            <span className={`text-sm font-medium ${step === s.num ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-zinc-500'}`}>
               {s.label}
             </span>
             {s.num < 4 && <ChevronRight className="w-4 h-4 text-zinc-700 ml-1" />}
@@ -280,15 +280,15 @@ export function OnboardingWizard({ project }: { project: any }) {
 
       {/* ШАГ 1 */}
       {step === 1 && (
-        <Card className="bg-zinc-900/50 border-zinc-800 mt-4 animate-in fade-in slide-in-from-bottom-4">
+        <Card className="bg-white dark:bg-zinc-900/50 border-slate-200 dark:border-zinc-800 mt-4 animate-in fade-in slide-in-from-bottom-4">
           <CardContent className="pt-6 space-y-6">
             <div className="space-y-2">
-              <h2 className="text-xl font-semibold text-slate-100">Вставьте ссылку на свой сайт</h2>
-              <p className="text-zinc-400 text-sm">Укажите ссылку, чтобы бот начал обучение ИИ для вашей компании.</p>
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Вставьте ссылку на свой сайт</h2>
+              <p className="text-slate-500 dark:text-zinc-400 text-sm">Укажите ссылку, чтобы бот начал обучение ИИ для вашей компании.</p>
             </div>
 
             {!isManual ? (
-              <div className="space-y-4 bg-zinc-800/30 p-6 rounded-lg border border-zinc-800/50">
+              <div className="space-y-4 bg-slate-100 dark:bg-zinc-800/30 p-6 rounded-lg border border-slate-200 dark:border-zinc-800/50">
                 <KnowledgeParserUI 
                   projectId={project.id}
                   onProcessingChange={setIsScraping}
@@ -305,21 +305,21 @@ export function OnboardingWizard({ project }: { project: any }) {
                   }}
                 />
                 <div className="pt-2 text-center">
-                  <Button variant="ghost" onClick={() => setIsManual(true)} className="text-zinc-400 hover:text-white" disabled={isLoading || isScraping}>
+                  <Button variant="ghost" onClick={() => setIsManual(true)} className="text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white" disabled={isLoading || isScraping}>
                     У меня нет сайта (Ввести текст)
                   </Button>
                 </div>
               </div>
             ) : (
-              <div className="space-y-4 bg-zinc-800/30 p-6 rounded-lg border border-zinc-800/50">
+              <div className="space-y-4 bg-slate-100 dark:bg-zinc-800/30 p-6 rounded-lg border border-slate-200 dark:border-zinc-800/50">
                 <div className="space-y-2">
-                  <Label className="text-zinc-300">Расскажите боту о своей компании</Label>
+                  <Label className="text-zinc-500 dark:text-zinc-300">Расскажите боту о своей компании</Label>
                   <div className="relative">
                     <Textarea 
                       placeholder="Наша компания называется Профиль, мы продаем онлайн-курсы..." 
                       value={manualText}
                       onChange={(e) => setManualText(e.target.value)}
-                      className="bg-zinc-900 border-zinc-700 min-h-[150px] text-base focus-visible:ring-primary/50 pr-12 pb-12"
+                      className="bg-white dark:bg-zinc-900 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 min-h-[150px] text-base focus-visible:ring-primary/50 pr-12 pb-12"
                     />
                     <Button
                       variant="ghost"
@@ -349,7 +349,7 @@ export function OnboardingWizard({ project }: { project: any }) {
                         }
                       }}
                       disabled={isLoading || !manualText}
-                      className="absolute bottom-3 right-3 text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10 flex items-center gap-1.5 px-3 py-1.5 h-auto bg-zinc-900 border border-zinc-800 rounded-md"
+                      className="absolute bottom-3 right-3 text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10 flex items-center gap-1.5 px-3 py-1.5 h-auto bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md"
                     >
                       {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                       <span className="text-xs font-medium">Улучшить ИИ</span>
@@ -365,7 +365,7 @@ export function OnboardingWizard({ project }: { project: any }) {
                   </Button>
                 </div>
                 <div className="pt-2 text-center">
-                  <Button variant="ghost" onClick={() => setIsManual(false)} className="text-zinc-400 hover:text-white">
+                  <Button variant="ghost" onClick={() => setIsManual(false)} className="text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white">
                     Использовать ссылку на сайт
                   </Button>
                 </div>
@@ -379,24 +379,24 @@ export function OnboardingWizard({ project }: { project: any }) {
 
       {/* ШАГ 2 */}
       {step === 2 && (
-        <Card className="bg-zinc-900/50 border-zinc-800 mt-4 animate-in fade-in slide-in-from-bottom-4">
+        <Card className="bg-white dark:bg-zinc-900/50 border-slate-200 dark:border-zinc-800 mt-4 animate-in fade-in slide-in-from-bottom-4">
           <CardContent className="pt-6 space-y-8">
             <div className="space-y-2">
-              <h2 className="text-xl font-semibold text-slate-100">Выберите модель ИИ</h2>
-              <p className="text-zinc-400 text-sm">Настройте стиль общения и правила, которым должен следовать бот.</p>
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Выберите модель ИИ</h2>
+              <p className="text-slate-500 dark:text-zinc-400 text-sm">Настройте стиль общения и правила, которым должен следовать бот.</p>
             </div>
 
             <div className="space-y-4">
-              <Label className="text-base text-zinc-300">Выберите стиль (Тон общения)</Label>
+              <Label className="text-base text-zinc-500 dark:text-zinc-300">Выберите стиль (Тон общения)</Label>
               <Select value={tone} onValueChange={setTone}>
-                <SelectTrigger className="w-full bg-zinc-800/50 border-zinc-700 text-slate-100 h-auto min-h-[3rem] py-2 text-base">
+                <SelectTrigger className="w-full bg-slate-100 dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 h-auto min-h-[3rem] py-2 text-base">
                   <div className="text-left whitespace-normal break-words leading-tight pr-2">
                     <SelectValue placeholder="Выберите стиль" />
                   </div>
                 </SelectTrigger>
-                <SelectContent side="bottom" className="bg-zinc-900 border-zinc-700 text-slate-100 z-[100] shadow-2xl w-[var(--radix-select-trigger-width)] max-h-[300px]">
+                <SelectContent side="bottom" className="bg-white dark:bg-zinc-900 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 z-[100] shadow-2xl w-[var(--radix-select-trigger-width)] max-h-[300px]">
                   {TONES.map(t => (
-                    <SelectItem key={t.value} value={t.value} className="focus:bg-zinc-800 focus:text-white cursor-pointer py-3 whitespace-normal break-words">
+                    <SelectItem key={t.value} value={t.value} className="focus:bg-slate-100 dark:focus:bg-zinc-800 focus:text-slate-900 dark:focus:text-white cursor-pointer py-3 whitespace-normal break-words">
                       {t.label}
                     </SelectItem>
                   ))}
@@ -405,10 +405,10 @@ export function OnboardingWizard({ project }: { project: any }) {
             </div>
 
             <div className="space-y-4">
-              <Label className="text-base text-zinc-300">Правила общения</Label>
+              <Label className="text-base text-zinc-500 dark:text-zinc-300">Правила общения</Label>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {RULES.map(rule => (
-                  <div key={rule.id} className="flex items-center space-x-3 p-3 rounded-md border border-zinc-800 bg-zinc-800/30 hover:bg-zinc-800/50 transition-colors">
+                  <div key={rule.id} className="flex items-center space-x-3 p-3 rounded-md border border-slate-200 dark:border-zinc-800 bg-slate-100 dark:bg-zinc-800/30 hover:bg-slate-100 dark:bg-zinc-800/50 transition-colors">
                     <Checkbox 
                       id={rule.id} 
                       checked={rules.includes(rule.id)}
@@ -418,27 +418,27 @@ export function OnboardingWizard({ project }: { project: any }) {
                       }}
                       className="border-zinc-600 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
                     />
-                    <Label htmlFor={rule.id} className="text-sm cursor-pointer flex-1 text-slate-300 font-normal">{rule.label}</Label>
+                    <Label htmlFor={rule.id} className="text-sm cursor-pointer flex-1 text-slate-500 dark:text-slate-300 font-normal">{rule.label}</Label>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label className="text-base text-zinc-300">Сценарий продаж (Автосгенерирован ИИ)</Label>
+              <Label className="text-base text-zinc-500 dark:text-zinc-300">Сценарий продаж (Автосгенерирован ИИ)</Label>
               <Textarea 
                 value={systemPrompt}
                 onChange={(e) => setSystemPrompt(e.target.value)}
                 placeholder="Если пусто, ИИ сам напишет сценарий на основе загруженных ссылок..."
-                className="bg-zinc-800/50 border-zinc-700 min-h-[120px] max-h-[450px] text-slate-100 focus-visible:ring-primary/50"
+                className="bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 min-h-[120px] max-h-[450px] text-slate-900 dark:text-slate-100 focus-visible:ring-primary/50 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-zinc-700 scrollbar-track-transparent"
               />
-              <p className="text-xs text-zinc-500">
+              <p className="text-xs text-slate-500 dark:text-zinc-500">
                 {isKnowledgeSaved ? 'Этот сценарий был написан автоматически! Вы можете изменить его, если нужно.' : 'Вы можете добавить сюда уникальные УТП.'}
               </p>
             </div>
 
-            <div className="flex justify-between pt-4 border-t border-zinc-800">
-              <Button onClick={() => setStep(1)} variant="ghost" className="text-zinc-400 hover:text-white">
+            <div className="flex justify-between pt-4 border-t border-slate-200 dark:border-zinc-800">
+              <Button onClick={() => setStep(1)} variant="ghost" className="text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-zinc-800/50">
                 <ChevronLeft className="w-4 h-4 mr-2" /> Назад
               </Button>
               <Button onClick={handleSaveSettings} disabled={isLoading} className="px-8 bg-blue-600 hover:bg-blue-700 text-white">
@@ -452,17 +452,17 @@ export function OnboardingWizard({ project }: { project: any }) {
 
       {/* ШАГ 3 */}
       {step === 3 && (
-        <Card className="bg-zinc-900/50 border-zinc-800 mt-4 animate-in fade-in slide-in-from-bottom-4">
+        <Card className="bg-white dark:bg-zinc-900/50 border-slate-200 dark:border-zinc-800 mt-4 animate-in fade-in slide-in-from-bottom-4">
           <CardContent className="pt-6 space-y-6">
             <div className="space-y-2">
-              <h2 className="text-xl font-semibold text-slate-100">Тестирование ИИ</h2>
-              <p className="text-zinc-400 text-sm">Задайте боту вопросы, чтобы проверить, как он выучил базу знаний.</p>
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Тестирование ИИ</h2>
+              <p className="text-slate-500 dark:text-zinc-400 text-sm">Задайте боту вопросы, чтобы проверить, как он выучил базу знаний.</p>
             </div>
 
-            <div className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-950 flex flex-col h-[400px]">
+            <div className="border border-slate-200 dark:border-zinc-800 rounded-lg overflow-hidden bg-white dark:bg-zinc-950 flex flex-col h-[400px]">
               <div className="flex-1 p-4 overflow-y-auto space-y-4">
                 {messages.length === 0 && (
-                  <div className="flex items-center justify-center h-full text-zinc-500 flex-col gap-2">
+                  <div className="flex items-center justify-center h-full text-slate-500 dark:text-zinc-500 flex-col gap-2">
                     <Bot className="w-12 h-12 text-zinc-800" />
                     <p>Напишите сообщение, чтобы начать диалог</p>
                   </div>
@@ -477,7 +477,7 @@ export function OnboardingWizard({ project }: { project: any }) {
                     <div className={`px-4 py-2 max-w-[80%] rounded-2xl text-sm ${
                       m.role === 'user' 
                         ? 'bg-blue-600 text-white rounded-br-none' 
-                        : 'bg-zinc-800 text-slate-200 rounded-bl-none'
+                        : 'bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-slate-700 dark:text-slate-200 rounded-bl-none'
                     }`}>
                       {m.content ? (
                         m.role === 'assistant' && m.content.includes('[') && m.content.includes(']') ? (
@@ -488,7 +488,7 @@ export function OnboardingWizard({ project }: { project: any }) {
                                 <button 
                                   key={idx} 
                                   onClick={() => setChatInput(opt.trim())}
-                                  className="text-xs bg-zinc-700/50 hover:bg-zinc-700 text-slate-200 px-3 py-1.5 rounded-full border border-zinc-600 transition-colors text-left"
+                                  className="text-xs bg-slate-200 dark:bg-zinc-700/50 hover:bg-slate-300 dark:hover:bg-zinc-700 text-slate-900 dark:text-slate-700 dark:text-slate-200 px-3 py-1.5 rounded-full border border-slate-300 dark:border-zinc-600 transition-colors text-left"
                                 >
                                   {opt.trim()}
                                 </button>
@@ -511,12 +511,12 @@ export function OnboardingWizard({ project }: { project: any }) {
                   </div>
                 ))}
               </div>
-              <form onSubmit={handleTestMessage} className="p-3 border-t border-zinc-800 bg-zinc-900 flex gap-2">
+              <form onSubmit={handleTestMessage} className="p-3 border-t border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 flex gap-2">
                 <Input 
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   placeholder="Введите сообщение..."
-                  className="bg-zinc-950 border-zinc-800 focus-visible:ring-primary/50"
+                  className="bg-white dark:bg-zinc-950 border-slate-300 dark:border-zinc-800 text-slate-900 dark:text-slate-100 focus-visible:ring-primary/50"
                   disabled={isChatLoading}
                 />
                 <Button type="submit" disabled={isChatLoading || !chatInput.trim()} size="icon" className="bg-blue-600 hover:bg-blue-700">
@@ -525,8 +525,8 @@ export function OnboardingWizard({ project }: { project: any }) {
               </form>
             </div>
 
-            <div className="flex justify-between pt-4 border-t border-zinc-800">
-              <Button onClick={() => setStep(2)} variant="ghost" className="text-zinc-400 hover:text-white">
+            <div className="flex justify-between pt-4 border-t border-slate-200 dark:border-zinc-800">
+              <Button onClick={() => setStep(2)} variant="ghost" className="text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-zinc-800/50">
                 <ChevronLeft className="w-4 h-4 mr-2" /> Назад
               </Button>
               <Button onClick={() => setStep(4)} className="px-8 bg-blue-600 hover:bg-blue-700 text-white">
@@ -539,26 +539,26 @@ export function OnboardingWizard({ project }: { project: any }) {
 
       {/* ШАГ 4 */}
       {step === 4 && (
-        <Card className="bg-zinc-900/50 border-zinc-800 mt-4 animate-in fade-in slide-in-from-bottom-4">
+        <Card className="bg-white dark:bg-zinc-900/50 border-slate-200 dark:border-zinc-800 mt-4 animate-in fade-in slide-in-from-bottom-4">
           <CardContent className="pt-6 space-y-8">
             <div className="space-y-2">
-              <h2 className="text-xl font-semibold text-slate-100">Установите бота на сайт</h2>
-              <p className="text-zinc-400 text-sm">Скопируйте код виджета и вставьте его на свой сайт.</p>
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Установите бота на сайт</h2>
+              <p className="text-slate-500 dark:text-zinc-400 text-sm">Скопируйте код виджета и вставьте его на свой сайт.</p>
             </div>
 
-            <div className="space-y-4 bg-zinc-800/30 p-6 rounded-lg border border-zinc-800/50">
-              <Label className="text-base text-zinc-300">Готовый код для сайта</Label>
-              <p className="text-sm text-zinc-400 mb-2">Скопируйте этот код и вставьте его перед закрывающим тегом <code>&lt;/body&gt;</code>.</p>
+            <div className="space-y-4 bg-slate-100 dark:bg-zinc-800/30 p-6 rounded-lg border border-slate-200 dark:border-zinc-800/50">
+              <Label className="text-base text-zinc-500 dark:text-zinc-300">Готовый код для сайта</Label>
+              <p className="text-sm text-slate-500 dark:text-zinc-400 mb-2">Скопируйте этот код и вставьте его перед закрывающим тегом <code>&lt;/body&gt;</code>.</p>
               
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-500/10 rounded-md blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <pre className="relative bg-zinc-950 border border-zinc-800 p-4 rounded-md overflow-x-auto text-sm font-mono text-zinc-300">
+                <pre className="relative bg-slate-50 dark:bg-zinc-950 border border-slate-300 dark:border-zinc-800 p-4 rounded-md overflow-x-auto text-sm font-mono text-slate-700 dark:text-zinc-300 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-zinc-700 scrollbar-track-transparent">
                   {snippet}
                 </pre>
                 <Button
                   size="sm"
                   variant="secondary"
-                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-zinc-800 hover:bg-zinc-700 text-zinc-300"
+                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-300 border border-slate-300 dark:border-zinc-700 shadow-sm"
                   onClick={() => {
                     navigator.clipboard.writeText(snippet)
                     toast.success('Код скопирован в буфер обмена')
@@ -571,18 +571,18 @@ export function OnboardingWizard({ project }: { project: any }) {
 
             <div className="space-y-2 pt-2">
               <div 
-                className="flex justify-between items-center p-4 border border-zinc-800 rounded-lg bg-zinc-900/50 cursor-pointer hover:bg-zinc-800/50 transition-colors"
+                className="flex justify-between items-center p-4 border border-slate-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900/50 cursor-pointer hover:bg-slate-100 dark:bg-zinc-800/50 transition-colors"
                 onClick={() => setShowAdvanced(!showAdvanced)}
               >
-                <span className="text-slate-100 font-medium text-sm">Дополнительные настройки</span>
-                <ChevronDown className={`w-4 h-4 text-zinc-400 transition-transform ${showAdvanced ? 'rotate-180' : ''}`} />
+                <span className="text-slate-900 dark:text-slate-100 font-medium text-sm">Дополнительные настройки</span>
+                <ChevronDown className={`w-4 h-4 text-slate-500 dark:text-zinc-400 transition-transform ${showAdvanced ? 'rotate-180' : ''}`} />
               </div>
 
               {showAdvanced && (
-                <div className="space-y-4 p-4 border border-zinc-800 rounded-lg bg-zinc-900/30 animate-in fade-in slide-in-from-top-2">
+                <div className="space-y-4 p-4 border border-slate-200 dark:border-zinc-800 rounded-lg bg-slate-50 dark:bg-zinc-900/30 animate-in fade-in slide-in-from-top-2">
                   <div className="space-y-2">
-                    <Label className="text-base text-zinc-300">Цвет виджета</Label>
-                    <p className="text-xs text-zinc-500">Настройте свой брендовый цвет для ответов, чтобы виджет лучше вписывался в дизайн вашего сайта.</p>
+                    <Label className="text-base text-zinc-500 dark:text-zinc-300">Цвет виджета</Label>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500">Настройте свой брендовый цвет для ответов, чтобы виджет лучше вписывался в дизайн вашего сайта.</p>
                   </div>
                   <div className="flex items-center gap-4">
                     <input 
@@ -594,26 +594,26 @@ export function OnboardingWizard({ project }: { project: any }) {
                     <Input 
                       value={themeColor} 
                       onChange={(e) => setThemeColor(e.target.value)}
-                      className="bg-zinc-800/50 border-zinc-700 text-slate-100 w-32" 
+                      className="bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 w-32" 
                     />
                   </div>
                   
-                  <div className="pt-4 border-t border-zinc-800 space-y-2 mt-4">
-                    <Label className="text-base text-zinc-300">Выберите иконку для виджета</Label>
-                    <p className="text-xs text-zinc-500">Оставьте стандартную иконку Соло или загрузите свой логотип.</p>
+                  <div className="pt-4 border-t border-slate-200 dark:border-zinc-800 space-y-2 mt-4">
+                    <Label className="text-base text-zinc-500 dark:text-zinc-300">Выберите иконку для виджета</Label>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500">Оставьте стандартную иконку Соло или загрузите свой логотип.</p>
                     <div className="flex items-center gap-4 mt-2">
                       <div className="w-12 h-12 rounded-lg border-2 border-primary bg-primary/10 flex items-center justify-center cursor-pointer">
                         <Bot className="w-6 h-6 text-primary" />
                       </div>
-                      <div className="w-12 h-12 rounded-lg border-2 border-zinc-800 bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-zinc-300 hover:border-zinc-700 cursor-pointer transition-colors">
+                      <div className="w-12 h-12 rounded-lg border-2 border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center justify-center text-slate-500 dark:text-zinc-500 hover:text-slate-900 dark:hover:text-zinc-300 hover:border-slate-400 dark:hover:border-zinc-700 cursor-pointer transition-colors">
                         <span className="text-xl">+</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-zinc-800 space-y-2 mt-4">
-                    <Label className="text-base text-zinc-300">Согласие на обработку персональных данных (152-ФЗ)</Label>
-                    <p className="text-xs text-zinc-500">Вставьте ссылку на Политику обработки персональных данных. Она будет отображаться в виджете.</p>
+                  <div className="pt-4 border-t border-slate-200 dark:border-zinc-800 space-y-2 mt-4">
+                    <Label className="text-base text-zinc-500 dark:text-zinc-300">Согласие на обработку персональных данных (152-ФЗ)</Label>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500">Вставьте ссылку на Политику обработки персональных данных. Она будет отображаться в виджете.</p>
                     <Input 
                       value={privacyPolicyUrl} 
                       onChange={(e) => setPrivacyPolicyUrl(e.target.value)}
@@ -623,15 +623,15 @@ export function OnboardingWizard({ project }: { project: any }) {
                           setPrivacyPolicyUrl('https://')
                         }
                       }}
-                      className="bg-zinc-800/50 border-zinc-700 text-slate-100 mt-2" 
+                      className="bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 mt-2" 
                     />
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="flex justify-between pt-8 border-t border-zinc-800">
-              <Button onClick={() => setStep(3)} variant="ghost" className="text-zinc-400 hover:text-white">
+            <div className="flex justify-between pt-8 border-t border-slate-200 dark:border-zinc-800">
+              <Button onClick={() => setStep(3)} variant="ghost" className="text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-zinc-800/50">
                 <ChevronLeft className="w-4 h-4 mr-2" /> Назад
               </Button>
               <Button onClick={handleFinish} disabled={isLoading} size="lg" className="px-8 text-base bg-blue-600 hover:bg-blue-700 text-white shadow-lg border-0">

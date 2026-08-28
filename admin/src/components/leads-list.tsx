@@ -61,7 +61,7 @@ export function LeadsList({ projectId }: { projectId: string }) {
 
   if (leads.length === 0) {
     return (
-      <Card className="bg-zinc-900/50 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-slate-200 dark:border-zinc-800">
         <CardHeader>
           <CardTitle>Собранные лиды</CardTitle>
           <CardDescription>Пока никто не оставил контактов. Бот будет автоматически сохранять здесь номера телефонов и email-адреса из диалогов.</CardDescription>
@@ -71,7 +71,7 @@ export function LeadsList({ projectId }: { projectId: string }) {
   }
 
   return (
-    <Card className="bg-zinc-900/50 border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-slate-200 dark:border-zinc-800">
       <CardHeader>
         <CardTitle>Собранные лиды ({leads.length})</CardTitle>
         <CardDescription>Здесь отображаются все контактные данные, которые клиенты оставили в чате.</CardDescription>
@@ -99,14 +99,14 @@ export function LeadsList({ projectId }: { projectId: string }) {
                   <TableCell className="align-top pt-4 whitespace-normal min-w-[300px]">
                     <div 
                       title={!isExpanded ? lead.message : undefined}
-                      className={`cursor-pointer text-zinc-300 leading-relaxed transition-all break-words w-full ${isExpanded ? 'whitespace-pre-wrap' : 'line-clamp-2'}`}
+                      className={`cursor-pointer text-slate-900 dark:text-slate-500 dark:text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-slate-700 dark:text-zinc-300 leading-relaxed transition-all break-words w-full ${isExpanded ? 'whitespace-pre-wrap' : 'line-clamp-2'}`}
                       onClick={() => setExpandedId(isExpanded ? null : lead.id)}
                     >
                       {lead.message}
                     </div>
                     {!isExpanded && (
                       <div 
-                        className="text-xs text-zinc-500 mt-1 cursor-pointer hover:text-zinc-400 inline-block"
+                        className="text-xs text-slate-900 dark:text-slate-500 dark:text-slate-500 dark:text-zinc-500 mt-1 cursor-pointer hover:text-slate-900 dark:text-slate-500 dark:text-zinc-400 inline-block"
                         onClick={() => setExpandedId(lead.id)}
                       >
                         Развернуть

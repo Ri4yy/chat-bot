@@ -32,11 +32,11 @@ export default function LoginPage() {
         <CardContent>
           <form id="auth-form" className="space-y-6">
             <div className="space-y-3">
-              <Label htmlFor="email" className="text-zinc-300">Электронная почта</Label>
+              <Label htmlFor="email" className="text-zinc-500 dark:text-zinc-300">Электронная почта</Label>
               <Input id="email" name="email" type="email" placeholder="hello@example.com" required className="bg-zinc-900/50 border-zinc-700/50 text-slate-100 h-12 placeholder:text-zinc-500 focus-visible:ring-zinc-500/50" />
             </div>
             <div className="space-y-3">
-              <Label htmlFor="password" className="text-zinc-300">Пароль</Label>
+              <Label htmlFor="password" className="text-zinc-500 dark:text-zinc-300">Пароль</Label>
               <div className="relative">
                 <Input 
                   id="password" 
@@ -83,7 +83,7 @@ export default function LoginPage() {
                 toast.success('Успешная регистрация! Теперь вы можете войти.')
               }
             }} 
-            className="w-full border border-zinc-700/50 bg-transparent text-slate-300 h-12 rounded-lg font-medium hover:bg-zinc-800/50 hover:text-white transition-all"
+            className="w-full border border-zinc-700/50 bg-transparent text-slate-500 dark:text-slate-300 h-12 rounded-lg font-medium hover:bg-zinc-800/50 hover:text-white transition-all"
           >
             Зарегистрироваться
           </button>

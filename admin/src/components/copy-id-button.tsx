@@ -17,7 +17,7 @@ export function CopyIdButton({ id }: { id: string }) {
     <Button 
       variant="ghost" 
       size="icon" 
-      className="h-6 w-6 text-zinc-400 hover:text-white hover:bg-zinc-800" 
+      className="h-6 w-6 text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-zinc-800" 
       onClick={handleCopy}
       title="Копировать ID"
     >

@@ -231,42 +231,42 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
   return (
     <div className="space-y-6 mt-4">
       <Tabs defaultValue="texts" className="w-full">
-        <TabsList className="w-full grid grid-cols-2 bg-zinc-900 border border-zinc-800 p-1 mb-4 !h-auto gap-1">
-          <TabsTrigger value="texts" className="data-[state=active]:bg-zinc-800 data-[state=active]:text-white !h-auto py-1.5">Текстовые фрагменты</TabsTrigger>
-          <TabsTrigger value="products" className="data-[state=active]:bg-zinc-800 data-[state=active]:text-white !h-auto py-1.5">Каталог товаров</TabsTrigger>
+        <TabsList className="w-full grid grid-cols-2 bg-slate-200 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-800 p-1 mb-4 !h-auto gap-1">
+          <TabsTrigger value="texts" className="!h-auto py-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:text-slate-900 dark:data-[state=active]:text-white data-[state=active]:shadow-sm text-slate-700 dark:text-slate-200">Текстовые фрагменты</TabsTrigger>
+          <TabsTrigger value="products" className="!h-auto py-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-800 data-[state=active]:text-slate-900 dark:data-[state=active]:text-white data-[state=active]:shadow-sm text-slate-700 dark:text-slate-200">Каталог товаров</TabsTrigger>
         </TabsList>
         <TabsContent value="texts" className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Card className="bg-zinc-900/50 border-zinc-800">
+        <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
           <CardContent className="p-6 flex items-center gap-4">
             <div className="p-3 bg-primary/10 rounded-lg">
               <Database className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <p className="text-sm font-medium text-zinc-400">Векторных фрагментов</p>
-              <h3 className="text-2xl font-bold text-slate-100">{documents.length}</h3>
+              <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">Векторных фрагментов</p>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{documents.length}</h3>
             </div>
           </CardContent>
         </Card>
         
-        <Card className="bg-zinc-900/50 border-zinc-800">
+        <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
           <CardContent className="p-6 flex items-center gap-4">
             <div className="p-3 bg-blue-500/10 rounded-lg">
               <BrainCircuit className="w-6 h-6 text-blue-500" />
             </div>
             <div>
-              <p className="text-sm font-medium text-zinc-400">Примерный объем (слов)</p>
-              <h3 className="text-2xl font-bold text-slate-100">~{totalWords.toLocaleString()}</h3>
+              <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">Примерный объем (слов)</p>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">~{totalWords.toLocaleString()}</h3>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-zinc-900/50 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader className="flex flex-row items-center justify-between pb-4">
           <div>
-            <CardTitle className="text-slate-100">Стартовые вопросы</CardTitle>
-            <CardDescription className="text-zinc-400">Быстрые подсказки, которые видят пользователи в начале чата.</CardDescription>
+            <CardTitle className="text-slate-900 dark:text-slate-100">Стартовые вопросы</CardTitle>
+            <CardDescription className="text-slate-500 dark:text-zinc-400">Быстрые подсказки, которые видят пользователи в начале чата.</CardDescription>
           </div>
           <Button 
             variant="outline" 
@@ -286,7 +286,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                 <Input 
                   value={q} 
                   readOnly
-                  className="bg-zinc-950 border-zinc-800 text-zinc-300" 
+                  className="bg-white dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300" 
                 />
                 <Button 
                   variant="ghost" 
@@ -296,14 +296,14 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                     setQuickQuestions(newQs)
                     await supabase.from('projects').update({ quick_questions: newQs }).eq('id', projectId)
                   }}
-                  className="text-zinc-500 hover:text-red-400 hover:bg-red-400/10"
+                  className="text-slate-500 dark:text-zinc-500 hover:text-red-400 hover:bg-red-400/10"
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
               </div>
             ))}
             
-            <div className="flex gap-2 mt-4 pt-4 border-t border-zinc-800/50">
+            <div className="flex gap-2 mt-4 pt-4 border-t border-slate-200 dark:border-zinc-800/50">
               <Input 
                 placeholder="Новый вопрос..." 
                 value={newQuestion}
@@ -316,7 +316,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                     await supabase.from('projects').update({ quick_questions: newQs }).eq('id', projectId)
                   }
                 }}
-                className="bg-zinc-950 border-zinc-800 text-zinc-300" 
+                className="bg-white dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300" 
               />
               <Button 
                 onClick={async () => {
@@ -336,14 +336,14 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
         </CardContent>
       </Card>
 
-      <Card className="bg-zinc-900/50 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle className="text-slate-100">Содержимое памяти</CardTitle>
-            <CardDescription className="text-zinc-400">Все фрагменты текста, которые ИИ использует для ответов.</CardDescription>
+            <CardTitle className="text-slate-900 dark:text-slate-100">Содержимое памяти</CardTitle>
+            <CardDescription className="text-slate-500 dark:text-zinc-400">Все фрагменты текста, которые ИИ использует для ответов.</CardDescription>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={fetchDocs} className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white">
+            <Button variant="outline" size="sm" onClick={fetchDocs} className="bg-white dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800 hover:text-slate-900 dark:hover:text-white">
               Обновить
             </Button>
           </div>
@@ -354,15 +354,15 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
           ) : documents.length === 0 ? (
-            <div className="text-center p-8 border border-zinc-800 border-dashed rounded-lg bg-zinc-900/30 text-zinc-500">
+            <div className="text-center p-8 border border-slate-200 dark:border-zinc-800 border-dashed rounded-lg bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/30 text-slate-500 dark:text-zinc-500">
               База знаний пока пуста. Загрузите данные в разделе "База знаний".
             </div>
           ) : (
-            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-zinc-700 scrollbar-track-transparent">
               {documents.map((doc) => (
-                <div key={doc.id} className="p-4 rounded-lg bg-zinc-950 border border-zinc-800/80 group transition-colors hover:border-zinc-700">
+                <div key={doc.id} className="p-4 rounded-lg bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800/80 group transition-colors hover:border-slate-300 dark:border-zinc-700">
                   <div className="flex justify-between items-start mb-2">
-                    <div className="text-xs text-zinc-500 flex items-center mt-3 border-t border-zinc-800/50 pt-2">
+                    <div className="text-xs text-slate-500 dark:text-zinc-500 flex items-center mt-3 border-t border-slate-200 dark:border-zinc-800/50 pt-2">
                       <Clock className="w-3 h-3 mr-1" />
                       {new Date(doc.created_at).toLocaleString('ru-RU')}
                     </div>
@@ -372,7 +372,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                         size="icon" 
                         onClick={() => handleDelete(doc.id)}
                         disabled={deletingId === doc.id}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity self-start -mt-1 -mr-1 text-zinc-500 hover:text-red-400 hover:bg-red-400/10 h-8 w-8 rounded-full"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity self-start -mt-1 -mr-1 text-slate-500 dark:text-zinc-500 hover:text-red-400 hover:bg-red-400/10 h-8 w-8 rounded-full"
                       >
                         {deletingId === doc.id ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
@@ -382,7 +382,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                       </Button>
                     )}
                   </div>
-                  <p className="text-sm text-zinc-300 whitespace-pre-wrap leading-relaxed line-clamp-4">
+                  <p className="text-sm text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 whitespace-pre-wrap leading-relaxed line-clamp-4">
                     {doc.content}
                   </p>
                 </div>
@@ -390,7 +390,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
             </div>
           )}
           <div className="flex items-center justify-between mt-6">
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-slate-500 dark:text-zinc-500">
               Суммарно: {documents.length} блоков
             </p>
             
@@ -414,23 +414,23 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
       </Card>
         </TabsContent>
         <TabsContent value="products">
-          <Card className="bg-zinc-900/50 border-zinc-800">
+          <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4">
               <div>
-                <CardTitle className="text-slate-100">Каталог товаров</CardTitle>
-                <CardDescription className="text-zinc-400">Товары, которые ИИ использует для рекомендаций ({productTotal}).</CardDescription>
+                <CardTitle className="text-slate-900 dark:text-slate-100">Каталог товаров</CardTitle>
+                <CardDescription className="text-slate-500 dark:text-zinc-400">Товары, которые ИИ использует для рекомендаций ({productTotal}).</CardDescription>
               </div>
               <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 <div className="relative flex-1 sm:w-64">
-                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-zinc-500" />
+                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500 dark:text-zinc-500" />
                   <Input
                     placeholder="Поиск товаров..."
-                    className="pl-9 bg-zinc-950 border-zinc-800 text-zinc-200 w-full"
+                    className="pl-9 bg-white dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 text-zinc-200 w-full"
                     value={productSearch}
                     onChange={(e) => setProductSearch(e.target.value)}
                   />
                 </div>
-                <Button variant="outline" size="sm" onClick={() => fetchProducts(productPage, productSearch)} className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white shrink-0">
+                <Button variant="outline" size="sm" onClick={() => fetchProducts(productPage, productSearch)} className="bg-white dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800 hover:text-slate-900 dark:hover:text-white shrink-0">
                   Обновить
                 </Button>
               </div>
@@ -441,12 +441,12 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                   <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               ) : products.length === 0 ? (
-                <div className="text-center p-8 border border-zinc-800 border-dashed rounded-lg bg-zinc-900/30 text-zinc-500">
+                <div className="text-center p-8 border border-slate-200 dark:border-zinc-800 border-dashed rounded-lg bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/30 text-slate-500 dark:text-zinc-500">
                   Товары не найдены. Вы можете загрузить их через Excel фид на вкладке "База знаний".
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between bg-zinc-900/50 p-2 rounded-md border border-zinc-800/50">
+                  <div className="flex items-center justify-between bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none p-2 rounded-md border border-slate-200 dark:border-zinc-800/50">
                     <div className="flex items-center gap-2">
                       <Checkbox
                         checked={selectedProductIds.size > 0 && selectedProductIds.size === products.length}
@@ -457,9 +457,9 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                             setSelectedProductIds(new Set())
                           }
                         }}
-                        className="border-zinc-600 data-[state=checked]:bg-primary"
+                        className="border-slate-300 dark:border-zinc-600 data-[state=checked]:bg-primary"
                       />
-                      <span className="text-sm text-zinc-400">Выбрать все на странице</span>
+                      <span className="text-sm text-slate-500 dark:text-zinc-400">Выбрать все на странице</span>
                     </div>
                     {selectedProductIds.size > 0 && permissions.includes('memory_delete') && (
                       <Button variant="destructive" size="sm" onClick={handleDeleteSelectedProducts} disabled={isDeletingProducts} className="h-8 text-xs">
@@ -471,7 +471,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {products.map(p => (
-                      <div key={p.id} className="relative flex flex-col p-4 rounded-lg bg-zinc-950 border border-zinc-800/80 group transition-colors hover:border-zinc-700">
+                      <div key={p.id} className="relative flex flex-col p-4 rounded-lg bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800/80 group transition-colors hover:border-slate-300 dark:border-zinc-700">
                         <div className="flex justify-between items-start mb-2">
                           <div className="flex items-start gap-3 pr-6">
                             <Checkbox
@@ -482,11 +482,11 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                                 else newSet.delete(p.id)
                                 setSelectedProductIds(newSet)
                               }}
-                              className="mt-1 border-zinc-600 data-[state=checked]:bg-primary"
+                              className="mt-1 border-slate-300 dark:border-zinc-600 data-[state=checked]:bg-primary"
                             />
                             <div>
-                              <h4 className="font-medium text-slate-200 text-sm line-clamp-2">{p.name}</h4>
-                              <p className="text-xs text-zinc-500 mt-1">{p.category}</p>
+                              <h4 className="font-medium text-slate-700 dark:text-slate-200 text-sm line-clamp-2">{p.name}</h4>
+                              <p className="text-xs text-slate-500 dark:text-zinc-500 mt-1">{p.category}</p>
                             </div>
                           </div>
                           {permissions.includes('memory_delete') && (
@@ -495,13 +495,13 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                               size="icon" 
                               onClick={() => handleDeleteProduct(p.id)}
                               disabled={isDeletingProducts}
-                              className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0 -mt-2 -mr-2 text-zinc-500 hover:text-red-400 hover:bg-red-400/10 h-8 w-8 rounded-full absolute right-6"
+                              className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0 -mt-2 -mr-2 text-slate-500 dark:text-zinc-500 hover:text-red-400 hover:bg-red-400/10 h-8 w-8 rounded-full absolute right-6"
                             >
                               <Trash2 className="w-4 h-4" />
                             </Button>
                           )}
                         </div>
-                        <div className="mt-auto pt-3 border-t border-zinc-800/50 flex justify-between items-center">
+                        <div className="mt-auto pt-3 border-t border-slate-200 dark:border-zinc-800/50 flex justify-between items-center">
                           <span className="text-sm font-semibold text-primary">{p.price} ₽</span>
                           <span className={`text-xs px-2 py-0.5 rounded-full ${p.in_stock ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
                             {p.in_stock ? 'В наличии' : 'Нет в наличии'}
@@ -511,8 +511,8 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                     ))}
                   </div>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                    <p className="text-sm text-zinc-500">
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-zinc-800/50">
+                    <p className="text-sm text-slate-500 dark:text-zinc-500">
                       Показано {products.length} из {productTotal} товаров
                     </p>
                     <div className="flex items-center gap-2">
@@ -521,11 +521,11 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                         size="icon"
                         onClick={() => { const prev = Math.max(0, productPage - 1); setProductPage(prev); fetchProducts(prev, productSearch) }}
                         disabled={productPage === 0 || isLoadingProducts}
-                        className="bg-zinc-950 border-zinc-800 text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                        className="bg-white dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 hover:bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 hover:text-slate-900 dark:hover:text-white"
                       >
                         <ChevronLeft className="w-4 h-4" />
                       </Button>
-                      <span className="text-sm text-zinc-400 min-w-8 text-center">
+                      <span className="text-sm text-slate-500 dark:text-zinc-400 min-w-8 text-center">
                         {productPage + 1}
                       </span>
                       <Button
@@ -533,7 +533,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                         size="icon"
                         onClick={() => { const next = productPage + 1; setProductPage(next); fetchProducts(next, productSearch) }}
                         disabled={(productPage + 1) * PRODUCTS_PER_PAGE >= productTotal || isLoadingProducts}
-                        className="bg-zinc-950 border-zinc-800 text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                        className="bg-white dark:bg-zinc-950 border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 hover:bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 hover:text-slate-900 dark:hover:text-white"
                       >
                         <ChevronRight className="w-4 h-4" />
                       </Button>

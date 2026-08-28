@@ -26,13 +26,13 @@ export function SuperAdminTokenChart({ projects }: { projects: any[] }) {
 
   if (data.length === 0) {
     return (
-      <Card className="bg-zinc-900/50 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader>
-          <CardTitle className="text-slate-100">Распределение токенов</CardTitle>
-          <CardDescription className="text-zinc-400">Сравнение затрат между активными ботами</CardDescription>
+          <CardTitle className="text-slate-900 dark:text-slate-100">Распределение токенов</CardTitle>
+          <CardDescription className="text-slate-500 dark:text-zinc-400">Сравнение затрат между активными ботами</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-[300px] w-full mt-4 flex items-center justify-center text-zinc-500 border-2 border-dashed border-zinc-800 rounded-lg">
+          <div className="h-[300px] w-full mt-4 flex items-center justify-center text-slate-500 dark:text-zinc-500 border-2 border-dashed border-slate-200 dark:border-zinc-800 rounded-lg">
             Нет данных для отображения
           </div>
         </CardContent>
@@ -41,10 +41,10 @@ export function SuperAdminTokenChart({ projects }: { projects: any[] }) {
   }
 
   return (
-    <Card className="bg-zinc-900/50 border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
       <CardHeader>
-        <CardTitle className="text-slate-100">Распределение токенов</CardTitle>
-        <CardDescription className="text-zinc-400">Сравнение затрат между активными ботами</CardDescription>
+        <CardTitle className="text-slate-900 dark:text-slate-100">Распределение токенов</CardTitle>
+        <CardDescription className="text-slate-500 dark:text-zinc-400">Сравнение затрат между активными ботами</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="h-[300px] w-full mt-4">

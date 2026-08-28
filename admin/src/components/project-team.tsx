@@ -111,26 +111,26 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-zinc-900/50 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader>
-          <CardTitle className="text-slate-100 flex items-center gap-2">
-            <UserPlus className="w-5 h-5 text-zinc-400" />
+          <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center gap-2">
+            <UserPlus className="w-5 h-5 text-slate-500 dark:text-zinc-400" />
             Пригласить менеджера
           </CardTitle>
-          <CardDescription className="text-zinc-400">
+          <CardDescription className="text-slate-500 dark:text-zinc-400">
             Добавьте пользователя по Email или ID. Он получит доступ к проекту с ограниченными правами.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleInvite} className="flex gap-4 items-end">
             <div className="space-y-2 flex-1">
-              <Label htmlFor="invite" className="text-zinc-300">Email или ID пользователя</Label>
+              <Label htmlFor="invite" className="text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300">Email или ID пользователя</Label>
               <Input
                 id="invite"
                 placeholder="user@example.com"
                 value={inviteInput}
                 onChange={e => setInviteInput(e.target.value)}
-                className="bg-zinc-800/50 border-zinc-700 text-slate-100"
+                className="bg-slate-100 dark:bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100"
               />
             </div>
             <Button type="submit" disabled={isInviting || !inviteInput.trim()} className="bg-slate-100 text-zinc-900 hover:bg-white transition-colors">
@@ -140,32 +140,32 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
         </CardContent>
       </Card>
 
-      <Card className="bg-zinc-900/50 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader>
-          <CardTitle className="text-slate-100 flex items-center gap-2">
-            <Shield className="w-5 h-5 text-zinc-400" />
+          <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center gap-2">
+            <Shield className="w-5 h-5 text-slate-500 dark:text-zinc-400" />
             Команда проекта
           </CardTitle>
-          <CardDescription className="text-zinc-400">
+          <CardDescription className="text-slate-500 dark:text-zinc-400">
             Управление правами доступа для добавленных менеджеров.
           </CardDescription>
         </CardHeader>
         <CardContent>
           {loading ? (
-            <div className="text-zinc-500">Загрузка команды...</div>
+            <div className="text-slate-500 dark:text-zinc-500">Загрузка команды...</div>
           ) : members.length === 0 ? (
-            <div className="text-zinc-500 text-center py-8 bg-zinc-900/30 rounded-lg border border-zinc-800 border-dashed">
+            <div className="text-slate-500 dark:text-zinc-500 text-center py-8 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/30 rounded-lg border border-slate-200 dark:border-zinc-800 border-dashed">
               В проекте пока нет менеджеров.
             </div>
           ) : (
             <div className="space-y-6">
               {members.map(member => (
-                <div key={member.id} className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700 relative group">
+                <div key={member.id} className="p-4 rounded-lg bg-slate-100 dark:bg-slate-50 dark:bg-zinc-800/30 border border-slate-300 dark:border-zinc-700 relative group">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <div className="text-sm font-medium text-slate-200">ID пользователя</div>
-                      <div className="text-xs text-zinc-400 font-mono mt-1">{member.user_id}</div>
-                      <div className="text-xs text-zinc-500 mt-1">Добавлен: {new Date(member.created_at).toLocaleDateString('ru-RU')}</div>
+                      <div className="text-sm font-medium text-slate-700 dark:text-slate-200">ID пользователя</div>
+                      <div className="text-xs text-slate-500 dark:text-zinc-400 font-mono mt-1">{member.user_id}</div>
+                      <div className="text-xs text-slate-500 dark:text-zinc-500 mt-1">Добавлен: {new Date(member.created_at).toLocaleDateString('ru-RU')}</div>
                     </div>
                     <Button 
                       variant="ghost" 
@@ -177,8 +177,8 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
                     </Button>
                   </div>
                   
-                  <div className="border-t border-zinc-700/50 pt-4">
-                    <div className="text-sm font-medium text-slate-300 mb-3">Права доступа:</div>
+                  <div className="border-t border-slate-300 dark:border-zinc-700/50 pt-4">
+                    <div className="text-sm font-medium text-slate-900 dark:text-slate-500 dark:text-slate-300 mb-3">Права доступа:</div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {AVAILABLE_PERMISSIONS.map(perm => (
                         <label key={perm.id} className="flex items-start space-x-3 cursor-pointer group/label p-1">
@@ -187,7 +187,7 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
                             onCheckedChange={() => togglePermission(member, perm.id)}
                             className="mt-0.5"
                           />
-                          <span className="text-sm text-zinc-400 group-hover/label:text-zinc-300 transition-colors">
+                          <span className="text-sm text-slate-500 dark:text-zinc-400 group-hover/label:text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 transition-colors">
                             {perm.label}
                           </span>
                         </label>

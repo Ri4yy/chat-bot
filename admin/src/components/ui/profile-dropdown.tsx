@@ -101,7 +101,7 @@ export default function ProfileDropdown({
                 "transition-all duration-200",
                 isOpen
                   ? "scale-110 text-blue-500 dark:text-blue-400"
-                  : "text-zinc-400 group-hover:text-zinc-600 dark:text-zinc-500 dark:group-hover:text-zinc-300"
+                  : "text-zinc-400 group-hover:text-zinc-600 dark:text-zinc-500 dark:group-hover:text-zinc-500 dark:text-zinc-300"
               )}
               fill="none"
               height="24"
@@ -163,7 +163,7 @@ export default function ProfileDropdown({
             <form action={logout} className="w-full m-0 p-0" id="logout-form">
               <DropdownMenuItem
                 variant="destructive"
-                className="group flex w-full cursor-pointer items-center gap-3 rounded-lg border border-transparent bg-red-500/10 p-2 transition-all duration-200 hover:border-red-500/20 data-[variant=destructive]:focus:bg-red-950/50 dark:data-[variant=destructive]:focus:bg-red-900/20 hover:shadow-sm"
+                className="group flex w-full cursor-pointer items-center gap-3 rounded-lg border border-transparent bg-red-500/10 p-2 transition-all duration-200 hover:border-red-500/20 data-[variant=destructive]:focus:bg-red-100 dark:data-[variant=destructive]:focus:bg-red-900/20 hover:shadow-sm"
                 onClick={() => {
                   const form = document.getElementById("logout-form") as HTMLFormElement;
                   form?.requestSubmit();

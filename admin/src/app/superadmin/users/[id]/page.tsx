@@ -35,12 +35,12 @@ export default async function UserDetailsPage({ params }: { params: Promise<{ id
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Link href="/superadmin" className="p-2 bg-zinc-900 hover:bg-zinc-800 rounded-lg transition-colors">
+        <Link href="/superadmin" className="p-2 bg-slate-200 dark:bg-zinc-900 hover:bg-slate-300 dark:hover:bg-zinc-800 rounded-lg transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
           <h2 className="text-2xl font-bold tracking-tight">{user.email}</h2>
-          <p className="text-zinc-400 mt-1">
+          <p className="text-slate-500 dark:text-zinc-400 mt-1">
             Зарегистрирован: {new Date(user.created_at).toLocaleString('ru-RU')}
           </p>
         </div>
@@ -50,10 +50,10 @@ export default async function UserDetailsPage({ params }: { params: Promise<{ id
         <UserLimitsForm user={user} />
 
         <div className="space-y-6">
-          <Card className="bg-zinc-900/50 border-zinc-800">
+          <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Bot className="w-5 h-5 text-zinc-400" />
+                <Bot className="w-5 h-5 text-slate-500 dark:text-zinc-400" />
                 Собственные боты
               </CardTitle>
             </CardHeader>
@@ -61,10 +61,10 @@ export default async function UserDetailsPage({ params }: { params: Promise<{ id
               {ownedProjects && ownedProjects.length > 0 ? (
                 <div className="space-y-4">
                   {ownedProjects.map(project => (
-                    <div key={project.id} className="flex items-center justify-between p-3 bg-zinc-950 rounded-lg border border-zinc-800">
+                    <div key={project.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-zinc-950 rounded-lg border border-slate-200 dark:border-zinc-800">
                       <div>
                         <div className="font-medium">{project.name}</div>
-                        <div className="text-xs text-zinc-500 mt-1">ID: {project.id}</div>
+                        <div className="text-xs text-slate-500 dark:text-zinc-500 mt-1">ID: {project.id}</div>
                       </div>
                       <Link 
                         href={`/project/${project.id}`} 
@@ -77,15 +77,15 @@ export default async function UserDetailsPage({ params }: { params: Promise<{ id
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-zinc-500 text-center py-4">У пользователя нет созданных проектов</p>
+                <p className="text-sm text-slate-500 dark:text-zinc-500 text-center py-4">У пользователя нет созданных проектов</p>
               )}
             </CardContent>
           </Card>
 
-          <Card className="bg-zinc-900/50 border-zinc-800">
+          <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Activity className="w-5 h-5 text-zinc-400" />
+                <Activity className="w-5 h-5 text-slate-500 dark:text-zinc-400" />
                 Приглашен как менеджер
               </CardTitle>
             </CardHeader>
@@ -93,10 +93,10 @@ export default async function UserDetailsPage({ params }: { params: Promise<{ id
               {memberProjects && memberProjects.length > 0 ? (
                 <div className="space-y-4">
                   {memberProjects.map((project: any) => (
-                    <div key={project.id} className="flex items-center justify-between p-3 bg-zinc-950 rounded-lg border border-zinc-800">
+                    <div key={project.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-zinc-950 rounded-lg border border-slate-200 dark:border-zinc-800">
                       <div>
                         <div className="font-medium">{project.name}</div>
-                        <div className="text-xs text-zinc-500 mt-1">ID: {project.id}</div>
+                        <div className="text-xs text-slate-500 dark:text-zinc-500 mt-1">ID: {project.id}</div>
                       </div>
                       <Link 
                         href={`/project/${project.id}`} 
@@ -109,7 +109,7 @@ export default async function UserDetailsPage({ params }: { params: Promise<{ id
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-zinc-500 text-center py-4">Не состоит ни в одной команде</p>
+                <p className="text-sm text-slate-500 dark:text-zinc-500 text-center py-4">Не состоит ни в одной команде</p>
               )}
             </CardContent>
           </Card>
