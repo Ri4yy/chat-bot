@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { logout } from '@/app/login/actions'
 import { Bot } from 'lucide-react'
+import { HeaderProfile } from '@/components/header-profile'
 
 export default async function SuperAdminLayout({
   children,
@@ -29,25 +30,18 @@ export default async function SuperAdminLayout({
 
       <header className="border-b border-amber-500/20 bg-zinc-950/80 backdrop-blur-md relative z-10">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/superadmin" className="text-xl font-bold tracking-tight text-amber-500 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
-              <Bot className="w-5 h-5 text-white" />
-            </div>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-amber-600">Nexus AI</span>
-            <span className="text-amber-500/50 text-sm font-normal align-middle ml-1">Админка</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-zinc-400">{user.email}</span>
-            <div className="h-4 w-px bg-zinc-800"></div>
-            <Link href="/" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
-              Вернуться на сайт
+          <div className="flex items-center gap-3">
+            <Link href="/" className="text-xl font-bold tracking-tight text-amber-500 flex items-center gap-3 group">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
+                <Bot className="w-5 h-5 text-white" />
+              </div>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-amber-600">Nexus AI</span>
             </Link>
-            <form action={logout}>
-              <button className="text-sm font-medium text-red-400 hover:text-red-300 transition-colors ml-2">
-                Выйти
-              </button>
-            </form>
+            <Link href="/superadmin" className="text-amber-500/50 hover:text-amber-500/80 transition-colors text-sm font-normal align-middle px-2 py-1 rounded-md hover:bg-amber-500/10">
+              Админка
+            </Link>
           </div>
+          <HeaderProfile />
         </div>
       </header>
 

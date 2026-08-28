@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { BrainCircuit, Mail, Activity, LogOut, MessageSquareText, Database } from 'lucide-react'
 import { CopyIdButton } from '@/components/copy-id-button'
+import { HeaderProfile } from '@/components/header-profile'
 
 export default async function AccountPage() {
   const supabase = await createClient()
@@ -38,12 +39,7 @@ export default async function AccountPage() {
             <div className="h-6 w-px bg-zinc-800"></div>
             <h1 className="text-xl font-bold tracking-tight text-slate-100">Настройки аккаунта</h1>
           </div>
-          <form action="/auth/signout" method="post">
-            <button type="submit" className="flex items-center text-sm font-medium text-red-400 hover:text-red-300 transition-colors">
-              <LogOut className="w-4 h-4 mr-2" />
-              Выйти
-            </button>
-          </form>
+          <HeaderProfile />
         </div>
       </header>
 

@@ -31,8 +31,10 @@ export async function createProject(formData: FormData) {
     .insert({
       name,
       user_id: user.id,
-      theme_color: '#0f172a',
-      welcome_message: 'Hi there! How can I help you today?',
+      theme_color: '#3b82f6',
+      welcome_message: 'Привет! Чем я могу помочь?',
+      chat_tokens_used: 0,
+      parse_tokens_used: 0
     })
     .select()
     .single()
@@ -57,6 +59,7 @@ export async function updateProjectSettings(projectId: string, formData: FormDat
   if (formData.has('system_prompt')) updateData.system_prompt = formData.get('system_prompt') as string
   if (formData.has('tone')) updateData.tone = formData.get('tone') as string
   if (formData.has('rules')) updateData.rules = formData.getAll('rules') as string[]
+  if (formData.has('privacy_policy_url')) updateData.privacy_policy_url = formData.get('privacy_policy_url') as string
 
   const icon = formData.get('icon') as File | null
   if (icon && icon.size > 0) {
@@ -105,4 +108,29 @@ export async function updateProjectSettings(projectId: string, formData: FormDat
   }
 
   revalidatePath(`/project/${projectId}`)
+}
+
+export async function deleteProject(projectId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Unauthorized')
+
+  // Check if owner
+  const { data: project } = await supabase.from('projects').select('user_id').eq('id', projectId).single()
+  if (!project) throw new Error('Project not found')
+  
+  const { data: limitData } = await supabase.from('user_limits').select('is_super_admin').eq('user_id', user.id).single()
+  const isSuperAdmin = limitData?.is_super_admin || false
+
+  if (project.user_id !== user.id && !isSuperAdmin) {
+    throw new Error('Not authorized to delete this project')
+  }
+
+  const { error } = await supabase.from('projects').delete().eq('id', projectId)
+  if (error) {
+    console.error('Error deleting project:', error)
+    throw new Error('Failed to delete project')
+  }
+
+  revalidatePath('/')
 }

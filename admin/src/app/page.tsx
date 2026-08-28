@@ -4,8 +4,10 @@ import { logout } from './login/actions'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { NewProjectButton } from '@/components/new-project-button'
+import { DeleteProjectButton } from '@/components/delete-project-button'
 import Link from 'next/link'
 import { Bot } from 'lucide-react'
+import { HeaderProfile } from '@/components/header-profile'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -75,25 +77,7 @@ export default async function DashboardPage() {
               Nexus AI
             </h1>
           </div>
-          <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
-            <span className="text-sm text-zinc-400 hidden sm:inline mr-2">{user.email}</span>
-            {isSuperAdmin && (
-              <Link href="/superadmin" className="px-3 py-1.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:bg-amber-500/20 rounded-md text-sm font-medium transition-colors">
-                Админка
-              </Link>
-            )}
-            <Link href="/docs" className="px-3 py-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 rounded-md text-sm font-medium transition-colors">
-              Справка / FAQ
-            </Link>
-            <Link href="/account" className="px-3 py-1.5 bg-zinc-800 text-zinc-300 border border-zinc-700 hover:text-white hover:bg-zinc-700 rounded-md text-sm font-medium transition-colors">
-              Аккаунт
-            </Link>
-            <form action={logout}>
-              <button className="px-3 py-1.5 bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 rounded-md text-sm font-medium transition-colors">
-                Выйти
-              </button>
-            </form>
-          </div>
+          <HeaderProfile />
         </div>
       </header>
 
@@ -109,36 +93,48 @@ export default async function DashboardPage() {
         {projects && projects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
-              <Link href={`/project/${project.id}`} key={project.id} className="group">
-                <Card className="hover:border-zinc-600 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1 transition-all duration-300 cursor-pointer h-full bg-zinc-900/60 border-zinc-800 backdrop-blur-md relative overflow-hidden">
+              <div key={project.id} className="group relative block h-full">
+                <Card className="hover:border-zinc-600 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1 transition-all duration-300 h-full bg-zinc-900/60 border-zinc-800 backdrop-blur-md relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                  <CardHeader className="flex flex-row items-center gap-4">
-                    <Avatar className="h-12 w-12 border-2 border-zinc-800">
-                      <AvatarFallback style={{ backgroundColor: project.theme_color, color: 'white' }}>
-                        {project.name.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <CardTitle className="text-lg text-slate-100">{project.name}</CardTitle>
-                      <CardDescription className="text-zinc-500">
-                        Создан {new Date(project.created_at).toLocaleDateString('ru-RU')}
-                      </CardDescription>
-                    </div>
+                  
+                  <CardHeader className="flex flex-row items-center gap-4 relative z-10 justify-between">
+                    <Link href={`/project/${project.id}`} className="flex items-center gap-4 flex-1">
+                      <Avatar className="h-12 w-12 border-2 border-zinc-800">
+                        <AvatarFallback style={{ backgroundColor: project.theme_color, color: 'white' }}>
+                          {project.name.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <CardTitle className="text-lg text-slate-100 group-hover:text-primary transition-colors">{project.name}</CardTitle>
+                        <CardDescription className="text-zinc-500">
+                          Создан {new Date(project.created_at).toLocaleDateString('ru-RU')}
+                        </CardDescription>
+                      </div>
+                    </Link>
+                    
+                    {(project.user_id === user.id || isSuperAdmin) && (
+                      <div className="z-20 relative shrink-0">
+                        <DeleteProjectButton projectId={project.id} />
+                      </div>
+                    )}
                   </CardHeader>
+                  
                   <CardContent>
-                    <p className="text-sm text-zinc-400 line-clamp-2">
-                      {project.welcome_message}
-                    </p>
+                    <Link href={`/project/${project.id}`} className="block relative z-10">
+                      <p className="text-sm text-zinc-400 line-clamp-2">
+                        {project.welcome_message}
+                      </p>
+                    </Link>
                   </CardContent>
                 </Card>
-              </Link>
+              </div>
             ))}
           </div>
         ) : (
           <div className="text-center py-24 border-2 border-dashed border-zinc-800 rounded-2xl bg-zinc-900/30 backdrop-blur-sm">
             <h3 className="text-xl font-semibold mb-2 text-slate-200">У вас пока нет проектов</h3>
             <p className="text-zinc-500 mb-6">Создайте ваш первый ИИ виджет, чтобы начать работу.</p>
-            <NewProjectButton />
+            <NewProjectButton isLimitReached={isLimitReached} maxProjects={maxProjects} />
           </div>
         )}
       </main>

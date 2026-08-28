@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server'
+// @ts-expect-error: pdf-parse types do not specify a default export
+import pdfParse from 'pdf-parse'
 import * as xlsx from 'xlsx'
+
+import fs from 'fs'
 
 export async function POST(req: Request) {
   try {
@@ -18,17 +22,9 @@ export async function POST(req: Request) {
     
     // PDF Parsing
     if (name.endsWith('.pdf')) {
-      // @ts-expect-error: pdf-parse types do not specify a default export
-      const pdfParse = (await import('pdf-parse')).default
       const data = await pdfParse(buffer)
       text = data.text
     } 
-    // Word Document Parsing (DOCX)
-    else if (name.endsWith('.docx') || name.endsWith('.doc')) {
-      const mammoth = await import('mammoth')
-      const result = await mammoth.extractRawText({ buffer })
-      text = result.value
-    }
     // Excel Parsing
     else if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
       const workbook = xlsx.read(buffer, { type: 'buffer' })

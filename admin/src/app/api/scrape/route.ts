@@ -3,7 +3,7 @@ import * as cheerio from 'cheerio'
 
 export async function POST(req: Request) {
   try {
-    const { url } = await req.json()
+    const { url, projectId } = await req.json()
 
     if (!url) {
       return NextResponse.json({ error: 'URL is required' }, { status: 400 })
@@ -12,7 +12,11 @@ export async function POST(req: Request) {
     // Validate URL
     let targetUrl: URL
     try {
-      targetUrl = new URL(url)
+      let finalUrl = url.trim()
+      if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+        finalUrl = 'https://' + finalUrl
+      }
+      targetUrl = new URL(finalUrl)
     } catch {
       return NextResponse.json({ error: 'Invalid URL format' }, { status: 400 })
     }
@@ -54,11 +58,6 @@ export async function POST(req: Request) {
       text = $('body').text().replace(/\s+/g, ' ').trim()
     }
 
-    // Жесткая зачистка часто встречающегося мусора (реквизиты, ИНН, ОГРН, адреса)
-    text = text.replace(/Настоящий сайт является официальным сайтом.*?\d{13,15}/gi, '')
-    text = text.replace(/ИНН:\s*\d+|ОГРН:\s*\d+/gi, '')
-    text = text.replace(/428017, Чувашская Республика.*?\d{2}:\d{2}/gi, '')
-
     if (!text || text.length < 20) {
       return NextResponse.json({ error: 'No meaningful text content found on the page' }, { status: 400 })
     }
@@ -68,87 +67,92 @@ export async function POST(req: Request) {
       text = `[Название страницы: ${article.title}]\n\n${text}`
     }
 
-    const { useLlm } = await req.json().catch(() => ({}))
-    
-    if (useLlm) {
-      // Инициализируем Supabase, чтобы списать токены
-      const { createServerClient } = require('@supabase/ssr')
-      const { cookies } = require('next/headers')
-      const cookieStore = await cookies()
-      const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-          cookies: {
-            getAll() { return cookieStore.getAll() },
-            setAll() {}
-          },
-        }
-      )
-
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        return NextResponse.json({ error: 'Unauthorized to use AI parsing' }, { status: 401 })
-      }
-
-      // Отправляем в OpenRouter
-      const openRouterRes = await fetch('https://routerai.ru/api/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${process.env.ROUTERAI_API_KEY}`,
-          'Content-Type': 'application/json',
-          'HTTP-Referer': 'http://localhost:3000',
-          'X-Title': 'Widget ChatBot'
+    // Включаем ИИ-обработку принудительно
+    // Инициализируем Supabase, чтобы списать токены
+    const { createServerClient } = require('@supabase/ssr')
+    const { cookies } = require('next/headers')
+    const cookieStore = await cookies()
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return cookieStore.getAll() },
+          setAll() {}
         },
-        body: JSON.stringify({
-          model: 'openai/gpt-5.6-luna',
-          messages: [
-            { 
-              role: 'system', 
-              content: 'Ты профессиональный парсер данных для базы знаний бота. Твоя задача — получить грязный текст веб-страницы и вернуть идеально структурированную и очищенную информацию в формате Markdown. \n\nСАМЫЕ ВАЖНЫЕ ПРАВИЛА (СТРОГО СОБЛЮДАТЬ!):\n1. УДАЛЯЙ ЛЮБУЮ общую юридическую информацию о компании (ИНН, ОГРН, адреса, фразы вроде "Настоящий сайт является официальным сайтом...", режим работы).\n2. УДАЛЯЙ элементы интерфейса (Размер шрифта, Цвет фона, кнопки "Заказать звонок", "Подать заявку").\n3. Если на странице есть только общая информация из подвала и нет уникального контента (статьи, описания товара/услуги), верни слово "NO_CONTENT" (без кавычек).\n4. Оставь ТОЛЬКО уникальный полезный текст: описание услуг, характеристики товаров, кейсы.\n5. НИКОГДА не дублируй общую информацию, которая есть на всех страницах сайта.' 
-            },
-            { role: 'user', content: text }
-          ]
-        })
-      })
-
-      if (!openRouterRes.ok) {
-        console.error('LLM parsing failed:', await openRouterRes.text())
-        // Возвращаем обычный текст, если ИИ упал
-        return NextResponse.json({ text, warning: 'AI parsing failed, used raw text.' })
       }
+    )
 
-      const llmData = await openRouterRes.json()
-      let llmText = llmData.choices?.[0]?.message?.content || text
-      const tokensUsed = llmData.usage?.total_tokens || 0
-
-      // Если ИИ решил, что на странице нет контента
-      if (llmText.includes('NO_CONTENT')) {
-        return NextResponse.json({ error: 'Page has no meaningful unique content' }, { status: 400 })
-      }
-
-      // Списываем токены
-      if (tokensUsed > 0) {
-        // Проверяем, есть ли запись в таблице
-        const { data: usageData } = await supabase.from('user_usage').select('tokens_used').eq('user_id', user.id).single()
-        
-        if (usageData) {
-          await supabase.from('user_usage').update({ 
-            tokens_used: usageData.tokens_used + tokensUsed,
-            updated_at: new Date().toISOString()
-          }).eq('user_id', user.id)
-        } else {
-          await supabase.from('user_usage').insert({ 
-            user_id: user.id, 
-            tokens_used: tokensUsed 
-          })
-        }
-      }
-
-      return NextResponse.json({ text: llmText, tokensUsed })
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized to use AI parsing' }, { status: 401 })
     }
 
-    return NextResponse.json({ text })
+    // Отправляем в OpenRouter
+    const openRouterRes = await fetch('https://routerai.ru/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.ROUTERAI_API_KEY}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'http://localhost:3000',
+        'X-Title': 'Widget ChatBot'
+      },
+      body: JSON.stringify({
+        model: 'z-ai/glm-5.3-flash',
+        messages: [
+          { 
+            role: 'system', 
+            content: `Ты эксперт по извлечению и структурированию данных для векторной базы знаний (RAG) ИИ-ассистента. 
+Твоя задача — получить сырой грязный текст веб-страницы и вернуть ИДЕАЛЬНО структурированную выжимку фактов в Markdown.
+
+ПРАВИЛА ОЧИСТКИ (КРИТИЧНО!):
+1. УДАЛЯЙ весь мусор интерфейса: кнопки, меню, футеры, "оставить заявку", "политика конфиденциальности", юридические данные (ИНН, ОГРН, адреса, если это не страница контактов).
+2. Оставь ТОЛЬКО смысловое ядро: описания услуг, цены, характеристики товаров, инструкции, ответы на вопросы, кейсы.
+3. Если на странице нет ничего, кроме базовых фраз (пустая страница), верни ровно одно слово "NO_CONTENT".
+
+ПРАВИЛА ФОРМАТИРОВАНИЯ:
+1. Выдавай результат в виде связного текста, разбитого на четкие логические блоки с заголовками H2/H3.
+2. Формулируй утвердительно и емко. (Например: "Компания занимается..." вместо "Мы занимаемся...").
+3. Не пиши в начале "Вот структурированные данные..." — сразу выдавай полезный текст.` 
+          },
+          { role: 'user', content: text }
+        ]
+      })
+    })
+
+    if (!openRouterRes.ok) {
+      console.error('LLM parsing failed:', await openRouterRes.text())
+      // Возвращаем обычный текст, если ИИ упал
+      return NextResponse.json({ text, warning: 'AI parsing failed, used raw text.' })
+    }
+
+    const llmData = await openRouterRes.json()
+    let llmText = llmData.choices?.[0]?.message?.content || text
+    const tokensUsed = llmData.usage?.total_tokens || 0
+
+    // Если ИИ решил, что на странице нет контента
+    if (llmText.includes('NO_CONTENT')) {
+      return NextResponse.json({ error: 'Page has no meaningful unique content' }, { status: 400 })
+    }
+
+    // Списываем токены
+    if (tokensUsed > 0) {
+      await supabase.rpc('increment_user_usage', {
+        target_user_id: user.id,
+        chat_tokens: 0,
+        parse_tokens: tokensUsed
+      })
+
+      if (projectId) {
+        await supabase.rpc('increment_project_usage', {
+          target_project_id: projectId,
+          chat_tokens: 0,
+          parse_tokens: tokensUsed
+        })
+      }
+    }
+
+    return NextResponse.json({ text: llmText, tokensUsed })
   } catch (e: any) {
     console.error('Scraping error:', e)
     return NextResponse.json({ error: e.message || 'Internal error' }, { status: 500 })

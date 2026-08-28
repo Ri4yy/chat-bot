@@ -16,6 +16,7 @@ import { ProjectTeam } from '@/components/project-team'
 import { ProjectDashboard } from '@/components/project-dashboard'
 import { ProjectIntegrationsForm } from '@/components/project-integrations-form'
 import { LineChart, Settings, Database, Brain, MessageSquare, Users, Shield, Code, Plug } from 'lucide-react'
+import { HeaderProfile } from '@/components/header-profile'
 
 export default async function ProjectPage({
   params,
@@ -86,12 +87,15 @@ export default async function ProjectPage({
       <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_0%,#000_30%,transparent_100%)] pointer-events-none"></div>
 
       <header className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md relative z-10">
-        <div className="container mx-auto px-4 h-16 flex items-center gap-4">
-          <Link href="/" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
-            &larr; Назад к дашборду
-          </Link>
-          <div className="h-6 w-px bg-zinc-800"></div>
-          <h1 className="text-xl font-bold tracking-tight text-slate-100">{project.name}</h1>
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
+              &larr; Назад к дашборду
+            </Link>
+            <div className="h-6 w-px bg-zinc-800"></div>
+            <h1 className="text-xl font-bold tracking-tight text-slate-100">{project.name}</h1>
+          </div>
+          <HeaderProfile />
         </div>
       </header>
 
@@ -104,29 +108,13 @@ export default async function ProjectPage({
                 <CardTitle className="text-slate-100">Меню</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-2">
+                {/* Секция: Повседневная работа */}
+                <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mt-2 mb-1 px-4">
+                  Повседневная работа
+                </div>
                 {permissions.includes('dashboard') && (
                   <Link href={`/project/${project.id}?tab=dashboard`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'dashboard' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
                     <LineChart size={16} /> Аналитика
-                  </Link>
-                )}
-                {permissions.includes('settings') && (
-                  <Link href={`/project/${project.id}?tab=settings`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'settings' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
-                    <Settings size={16} /> Настройки
-                  </Link>
-                )}
-                {permissions.includes('settings') && (
-                  <Link href={`/project/${project.id}?tab=integrations`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'integrations' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
-                    <Plug size={16} /> Интеграции
-                  </Link>
-                )}
-                {permissions.includes('knowledge') && (
-                  <Link href={`/project/${project.id}?tab=knowledge`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'knowledge' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
-                    <Database size={16} /> База знаний (Загрузка)
-                  </Link>
-                )}
-                {permissions.includes('memory_view') && (
-                  <Link href={`/project/${project.id}?tab=memory`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'memory' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
-                    <Brain size={16} /> Управление памятью
                   </Link>
                 )}
                 {permissions.includes('history') && (
@@ -139,14 +127,44 @@ export default async function ProjectPage({
                     <Users size={16} /> Лиды
                   </Link>
                 )}
-                {isOwner && (
-                  <Link href={`/project/${project.id}?tab=team`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'team' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
-                    <Shield size={16} /> Команда
+
+                {/* Секция: Обучение ИИ */}
+                <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mt-4 mb-1 px-4">
+                  Обучение ИИ
+                </div>
+                {permissions.includes('knowledge') && (
+                  <Link href={`/project/${project.id}?tab=knowledge`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'knowledge' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
+                    <Database size={16} /> База знаний (Загрузка)
+                  </Link>
+                )}
+                {permissions.includes('memory_view') && (
+                  <Link href={`/project/${project.id}?tab=memory`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'memory' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
+                    <Brain size={16} /> Управление памятью
+                  </Link>
+                )}
+
+                {/* Секция: Управление проектом */}
+                <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mt-4 mb-1 px-4">
+                  Настройки
+                </div>
+                {permissions.includes('settings') && (
+                  <Link href={`/project/${project.id}?tab=settings`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'settings' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
+                    <Settings size={16} /> Настройки бота
+                  </Link>
+                )}
+                {permissions.includes('settings') && (
+                  <Link href={`/project/${project.id}?tab=integrations`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'integrations' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
+                    <Plug size={16} /> Интеграции
                   </Link>
                 )}
                 {permissions.includes('install') && (
                   <Link href={`/project/${project.id}?tab=install`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'install' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
                     <Code size={16} /> Установка виджета
+                  </Link>
+                )}
+                {isOwner && (
+                  <Link href={`/project/${project.id}?tab=team`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'team' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-slate-200'}`}>
+                    <Shield size={16} /> Команда
                   </Link>
                 )}
               </CardContent>

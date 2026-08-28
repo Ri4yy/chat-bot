@@ -16,7 +16,7 @@ function getOpenRouter(apiKey?: string | null) {
   })
 }
 
-const MAX_TOKENS_LIMIT = 50000
+const MAX_TOKENS_LIMIT = 250000
 
 export async function POST(req: Request) {
   try {
@@ -55,16 +55,17 @@ export async function POST(req: Request) {
     }
 
     if (currentTokens >= MAX_TOKENS_LIMIT) {
-      return NextResponse.json({ error: 'Достигнут лимит токенов на форматирование (50,000)' }, { status: 403 })
+      return NextResponse.json({ error: 'Достигнут лимит токенов на форматирование (250,000)' }, { status: 403 })
     }
 
     const systemPrompt = `Вы — профессиональный редактор данных. 
 Ваша задача — получить сырой текст (возможно с мусором от парсинга), очистить его, красиво отформатировать, убрать лишние символы и структурировать для удобного чтения. 
-Используйте Markdown, заголовки, списки, если это уместно. Оставьте только суть и сохраните все важные детали.`
+Используйте Markdown, заголовки, списки, если это уместно. Оставьте только суть и сохраните все важные детали.
+ВАЖНОЕ ПРАВИЛО: Верните ТОЛЬКО итоговый отформатированный текст. Строго запрещено писать приветствия, прощания, добавлять списки или таблицы с вашими исправлениями (например, "Что было исправлено"), и задавать вопросы. Только финальный текст.`
 
     // Call LLM
     const { text: formattedText, usage } = await generateText({
-      model: openrouter('openai/gpt-5.6-luna'), // Free model requested by user
+      model: openrouter('z-ai/glm-5.3-flash'), // Free model requested by user
       system: systemPrompt,
       prompt: text,
       temperature: 0.2,

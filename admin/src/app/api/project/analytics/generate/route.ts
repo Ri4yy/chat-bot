@@ -91,7 +91,7 @@ export async function POST(req: Request) {
     ${chatLog}`
 
     const { text, usage } = await generateText({
-      model: openrouter('openai/gpt-5.6-luna'),
+      model: openrouter('z-ai/glm-5.3-flash'),
       system: systemPrompt,
       messages: [{ role: 'user', content: 'Сгенерируй JSON-отчет по логам.' }],
       temperature: 0.3

@@ -22,7 +22,7 @@ export function NewProjectButton({ isLimitReached, maxProjects }: { isLimitReach
       const formData = new FormData(e.currentTarget)
       const project = await createProject(formData)
       setOpen(false)
-      router.push(`/project/${project.id}`)
+      router.push(`/project/${project.id}/setup`)
     } catch (error: any) {
       console.error(error)
       toast.error(error.message || 'Произошла ошибка')
@@ -31,39 +31,48 @@ export function NewProjectButton({ isLimitReached, maxProjects }: { isLimitReach
     }
   }
 
+  if (isLimitReached) {
+    return (
+      <span title={`Достигнут лимит проектов (${maxProjects}). Для создания нового проекта обратитесь к администратору.`}>
+        <Button disabled className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors bg-primary text-primary-foreground opacity-50 h-9 px-4 py-2 cursor-not-allowed">
+          + Новый Проект
+        </Button>
+      </span>
+    )
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <span 
-        title={isLimitReached ? `Достигнут лимит проектов (${maxProjects}). Для создания нового проекта обратитесь к администратору.` : ''}
-        className="inline-block"
+      <DialogTrigger 
+        className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
       >
-        <DialogTrigger 
-          disabled={isLimitReached}
-          onClick={(e) => { if (isLimitReached) e.preventDefault() }}
-          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
-        >
-          + Новый Проект
-        </DialogTrigger>
-      </span>
-      <DialogContent className="sm:max-w-[425px]">
+        + Новый Проект
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[500px] p-6 sm:p-8 bg-zinc-950 border-zinc-800 rounded-2xl">
         <form onSubmit={onSubmit}>
-          <DialogHeader>
-            <DialogTitle>Создать новый ИИ Виджет</DialogTitle>
-            <DialogDescription>
+          <DialogHeader className="space-y-3 text-left">
+            <DialogTitle className="text-2xl font-semibold text-slate-100">Создать новый ИИ Виджет</DialogTitle>
+            <DialogDescription className="text-base text-zinc-400">
               Придумайте название для вашего нового ИИ-ассистента.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="name">Название проекта</Label>
-              <Input id="name" name="name" placeholder="напр. Мой классный магазин" required />
+          <div className="grid gap-6 py-8">
+            <div className="grid gap-3">
+              <Label htmlFor="name" className="text-sm font-medium text-slate-200">Название проекта</Label>
+              <Input 
+                id="name" 
+                name="name" 
+                placeholder="напр. Мой классный магазин" 
+                required 
+                className="bg-zinc-900/80 border-zinc-800 h-14 px-4 text-base focus-visible:ring-primary/50 text-slate-100 placeholder:text-zinc-500 rounded-xl transition-all"
+              />
             </div>
           </div>
-          <DialogFooter>
-            <Button type="submit" disabled={isLoading}>
+          <div className="w-full pt-2">
+            <Button type="submit" disabled={isLoading} className="w-full h-14 text-base font-semibold rounded-xl bg-slate-100 text-zinc-900 hover:bg-slate-200 transition-colors">
               {isLoading ? 'Создание...' : 'Создать'}
             </Button>
-          </DialogFooter>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

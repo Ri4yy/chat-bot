@@ -13,9 +13,10 @@ export function App({ projectId }: { projectId: string | null }) {
   const [config, setConfig] = useState({
     name: 'AI Assistant',
     theme_color: '#3b82f6',
-    welcome_message: 'Hi there! How can I help you today?',
+    welcome_message: 'Привет! Чем я могу помочь?',
     icon_url: '',
-    quick_questions: [] as string[]
+    quick_questions: [] as string[],
+    privacy_policy_url: ''
   })
   
   const [messages, setMessages] = useState<Message[]>([])
@@ -285,7 +286,7 @@ export function App({ projectId }: { projectId: string | null }) {
                     key={qIdx}
                     disabled={isLoading}
                     onClick={() => handleSend(question)}
-                    className="bg-white border border-[var(--theme-color)]/30 text-[var(--theme-color)] px-3 py-1.5 rounded-2xl text-[13px] font-medium hover:bg-[var(--theme-color)] hover:text-white transition-all shadow-sm cursor-pointer disabled:opacity-50"
+                    className="bg-white border border-[var(--theme-color)]/30 text-slate-700 px-3 py-1.5 rounded-2xl text-[13px] font-medium hover:bg-[var(--theme-color)] hover:text-white transition-all shadow-sm cursor-pointer disabled:opacity-50"
                   >
                     {question}
                   </button>
@@ -313,6 +314,11 @@ export function App({ projectId }: { projectId: string | null }) {
                 <Send size={18} className="ml-0.5" />
               </button>
             </form>
+            {config.privacy_policy_url && (
+              <div className="text-center mt-3 text-[10px] text-slate-400 font-medium">
+                При отправке данных вы соглашаетесь с <a href={config.privacy_policy_url} target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-500 transition-colors">политикой обработки персональных данных</a>
+              </div>
+            )}
           </div>
 
         </div>

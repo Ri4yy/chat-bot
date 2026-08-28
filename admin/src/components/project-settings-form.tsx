@@ -118,7 +118,7 @@ export function ProjectSettingsForm({ project }: { project: any }) {
           name="system_prompt" 
           defaultValue={project.system_prompt || ''} 
           placeholder="Вы — полезный ИИ-ассистент..."
-          className="bg-zinc-800/50 border-zinc-700 text-slate-100 min-h-[120px] focus-visible:ring-primary/50 resize-y" 
+          className="bg-zinc-800/50 border-zinc-700 text-slate-100 min-h-[120px] max-h-[450px] focus-visible:ring-primary/50 resize-y" 
         />
         <p className="text-sm text-zinc-500">Укажите роль и правила поведения для вашего бота. Этот текст будет скрыт от пользователей.</p>
       </div>
@@ -167,6 +167,28 @@ export function ProjectSettingsForm({ project }: { project: any }) {
           <p className="text-sm text-zinc-500">Загрузите изображение для аватара.</p>
         </div>
       </div>
+      <div className="space-y-4 pt-6 border-t border-zinc-800">
+        <h3 className="text-xl font-semibold text-slate-100">Как принимать согласие на обработку персональных данных?</h3>
+        <p className="text-sm text-zinc-400">
+          Согласно 152-ФЗ обязательно получать от клиента согласие на обработку персональных данных.
+        </p>
+        <div className="space-y-2 max-w-xl">
+          <Label htmlFor="privacy_policy_url" className="text-zinc-300">Вставьте ссылку на согласие на обработку персональных данных</Label>
+          <Input 
+            id="privacy_policy_url" 
+            name="privacy_policy_url" 
+            defaultValue={project.privacy_policy_url || ''} 
+            placeholder="https://"
+            onFocus={(e) => {
+              if (!e.target.value) {
+                e.target.value = 'https://'
+              }
+            }}
+            className="bg-zinc-800/50 border-zinc-700 text-slate-100 focus-visible:ring-primary/50" 
+          />
+        </div>
+      </div>
+
 
       <Button type="submit" disabled={isLoading} className="bg-slate-100 text-zinc-900 hover:bg-white transition-colors">
         {isLoading ? 'Сохранение...' : 'Сохранить изменения'}

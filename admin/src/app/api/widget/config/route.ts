@@ -27,7 +27,7 @@ export async function GET(req: Request) {
 
   const { data: project, error } = await supabase
     .from('projects')
-    .select('id, name, theme_color, welcome_message, icon_url, quick_questions')
+    .select('id, name, theme_color, welcome_message, icon_url, quick_questions, privacy_policy_url')
     .eq('id', projectId)
     .single()
     
@@ -36,7 +36,8 @@ export async function GET(req: Request) {
     return NextResponse.json({
       name: 'AI Assistant',
       theme_color: '#3b82f6',
-      welcome_message: 'Hi there! How can I help you today?',
+      welcome_message: 'Привет! Чем я могу помочь?',
+      icon_url: '',
       error: error
     }, { headers: corsHeaders })
   }

@@ -3,7 +3,7 @@ import * as cheerio from 'cheerio'
 
 export async function POST(req: Request) {
   try {
-    const { url } = await req.json()
+    const { url, exclusions = [] } = await req.json()
 
     if (!url) {
       return NextResponse.json({ error: 'URL is required' }, { status: 400 })
@@ -11,7 +11,11 @@ export async function POST(req: Request) {
 
     let targetUrl: URL
     try {
-      targetUrl = new URL(url)
+      let finalUrl = url.trim()
+      if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+        finalUrl = 'https://' + finalUrl
+      }
+      targetUrl = new URL(finalUrl)
     } catch {
       return NextResponse.json({ error: 'Invalid URL format' }, { status: 400 })
     }
@@ -30,8 +34,22 @@ export async function POST(req: Request) {
     const $ = cheerio.load(html)
     const links = new Set<string>()
 
-    // Add the root URL itself
-    links.add(targetUrl.toString())
+    // Функция проверки на исключения
+    const isExcluded = (checkUrl: string) => {
+      return exclusions.some((exclusion: string) => {
+        if (!exclusion) return false
+        // Если исключение начинается с '/', проверяем путь. Иначе проверяем всю ссылку.
+        if (exclusion.startsWith('/')) {
+           return new URL(checkUrl).pathname.startsWith(exclusion)
+        }
+        return checkUrl.includes(exclusion)
+      })
+    }
+
+    // Add the root URL itself (если не исключен)
+    if (!isExcluded(targetUrl.toString())) {
+      links.add(targetUrl.toString())
+    }
 
     $('a').each((_, element) => {
       const href = $(element).attr('href')
@@ -48,7 +66,11 @@ export async function POST(req: Request) {
         ) {
           // Normalize URL by removing hash
           resolvedUrl.hash = ''
-          links.add(resolvedUrl.toString())
+          const finalStr = resolvedUrl.toString()
+          
+          if (!isExcluded(finalStr)) {
+            links.add(finalStr)
+          }
         }
       } catch (e) {
         // Ignore invalid URLs

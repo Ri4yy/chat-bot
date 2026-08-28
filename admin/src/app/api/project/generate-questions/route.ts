@@ -65,7 +65,7 @@ export async function POST(req: Request) {
     ${contextText}`
 
     const { text, usage } = await generateText({
-      model: openrouter('openai/gpt-5.6-luna'),
+      model: openrouter('z-ai/glm-5.3-flash'),
       system: systemPrompt,
       messages: [{ role: 'user', content: 'Сгенерируй JSON-массив из 3 вопросов.' }],
       temperature: 0.3
