@@ -40,24 +40,34 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Project ID is required' }, { status: 400, headers: corsHeaders })
     }
 
-    // 1. Fetch project settings
-    const { data: project, error: projectError } = await supabase
-      .from('projects')
-      .select('name, system_prompt, tone, rules, user_id, openrouter_api_key, b24_webhook_url, amo_webhook_url')
-      .eq('id', projectId)
-      .single()
+    const lastMessage = messages[messages.length - 1]
+
+    // 1. Fetch project settings and generate embedding concurrently to reduce TTFT
+    const [projectResult, embeddingResult] = await Promise.all([
+      supabase
+        .from('projects')
+        .select('name, system_prompt, tone, rules, user_id, openrouter_api_key, b24_webhook_url, amo_webhook_url')
+        .eq('id', projectId)
+        .single(),
+      generateEmbedding(lastMessage.content).catch(err => {
+        console.error('Embedding error:', err)
+        return { embedding: null, usage: 0 }
+      })
+    ])
+
+    const { data: project, error: projectError } = projectResult
 
     if (projectError) {
       console.error('Project fetch error:', projectError)
       return NextResponse.json({ error: 'Project not found' }, { status: 404, headers: corsHeaders })
     }
     
+    const { embedding, usage: embedUsage } = embeddingResult
+    let totalExtraTokens = embedUsage
+    
     const openrouter = getOpenRouter(project.openrouter_api_key)
 
-    const lastMessage = messages[messages.length - 1]
-
     // --- DIALOG PERSISTENCE & LEAD DETECTION ---
-    let totalExtraTokens = 0
     if (sessionId) {
       // 1. Ensure session exists
       const { data: session } = await supabase.from('chat_sessions').select('id').eq('id', sessionId).single()
@@ -171,21 +181,20 @@ export async function POST(req: Request) {
     }
     // -------------------------------------------
     
-    // 1. Generate embedding for user query
-    const { embedding, usage: embedUsage } = await generateEmbedding(lastMessage.content)
-    totalExtraTokens += embedUsage
-
-    // 2. Search knowledge base
-    const { data: documents, error: searchError } = await supabase
-      .rpc('match_documents', {
-        query_embedding: embedding,
-        match_threshold: 0.5,
-        match_count: 5,
-        filter_project_id: projectId
-      })
-
-    if (searchError) {
-      console.error('Search error:', searchError)
+    // 2. Search knowledge base if embedding exists
+    let documents: any = []
+    if (embedding) {
+      const { data, error: searchError } = await supabase
+        .rpc('match_documents', {
+          query_embedding: embedding,
+          match_threshold: 0.5,
+          match_count: 5,
+          filter_project_id: projectId
+        })
+      documents = data
+      if (searchError) {
+        console.error('Search error:', searchError)
+      }
     }
 
     // 3. Extract text from documents

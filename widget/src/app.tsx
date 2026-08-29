@@ -8,7 +8,7 @@ type Message = {
   suggestions?: string[]
 }
 
-export function App({ projectId }: { projectId: string | null }) {
+export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId: string | null, apiUrl?: string }) {
   const [isOpen, setIsOpen] = useState(false)
   const [config, setConfig] = useState({
     name: 'Менеджер',
@@ -39,7 +39,7 @@ export function App({ projectId }: { projectId: string | null }) {
   useEffect(() => {
     if (projectId) {
       // Fetch widget config from Admin API
-      fetch(`http://localhost:3000/api/widget/config?project_id=${projectId}`)
+      fetch(`${apiUrl}/api/widget/config?project_id=${projectId}`)
         .then(res => res.json())
         .then(data => {
           if (!data.error) {
@@ -72,8 +72,10 @@ export function App({ projectId }: { projectId: string | null }) {
     const assistantId = (Date.now() + 1).toString()
     setMessages(prev => [...prev, { id: assistantId, role: 'assistant', content: '' }])
 
+    let typeWriterInterval: ReturnType<typeof setInterval> | null = null
+
     try {
-      const res = await fetch('http://localhost:3000/api/chat', {
+      const res = await fetch(`${apiUrl}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -98,7 +100,7 @@ export function App({ projectId }: { projectId: string | null }) {
         setIsLoading(false) // Hide the typing indicator as soon as we start receiving data
         
         // Typewriter effect loop
-        const typeWriterInterval = setInterval(() => {
+        typeWriterInterval = setInterval(() => {
           if (displayedLength < fullText.length) {
             // Read 1-2 chars at a time depending on how far behind we are
             const charsToAdd = Math.max(1, Math.floor((fullText.length - displayedLength) / 5))
@@ -109,7 +111,7 @@ export function App({ projectId }: { projectId: string | null }) {
               m.id === assistantId ? { ...m, content: currentDisplayed.replace(/\[([^\]]*)$/, '').replace(/\[([^\]]+)\]\s*$/, '').trim() } : m
             ))
           } else if (!isReading) {
-            clearInterval(typeWriterInterval)
+            if (typeWriterInterval) clearInterval(typeWriterInterval)
             
             // Final parse when completely done
             let suggestions: string[] | undefined = undefined
@@ -156,8 +158,18 @@ export function App({ projectId }: { projectId: string | null }) {
       ))
     } finally {
       setIsLoading(false)
+      if (typeWriterInterval) {
+        clearInterval(typeWriterInterval)
+      }
     }
   }
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      // Additional cleanup if needed (handled locally in handleSend)
+    }
+  }, [])
 
   function sendMessage(e: Event) {
     e.preventDefault()
@@ -181,7 +193,7 @@ export function App({ projectId }: { projectId: string | null }) {
           onClick={() => {
             setIsOpen(true)
             if (projectId) {
-              fetch('http://localhost:3000/api/widget/track-open', {
+              fetch(`${apiUrl}/api/widget/track-open`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ projectId })

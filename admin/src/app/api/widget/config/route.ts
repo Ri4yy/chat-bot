@@ -42,5 +42,10 @@ export async function GET(req: Request) {
     }, { headers: corsHeaders })
   }
 
-  return NextResponse.json(project, { headers: corsHeaders })
+  return NextResponse.json(project, { 
+    headers: {
+      ...corsHeaders,
+      'Cache-Control': 'public, max-age=60, s-maxage=120, stale-while-revalidate=300'
+    } 
+  })
 }

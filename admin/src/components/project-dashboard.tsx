@@ -58,31 +58,30 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
           prevDate.setDate(now.getDate() - 60)
         }
 
-        // Fetch sessions
-        const { data: sessions, error: sessionsError } = await supabase
-          .from('chat_sessions')
-          .select('created_at')
-          .eq('project_id', projectId)
-          .gte('created_at', prevDate.toISOString())
+        const [
+          { data: sessions, error: sessionsError },
+          { data: leads, error: leadsError },
+          { data: opens, error: opensError }
+        ] = await Promise.all([
+          supabase
+            .from('chat_sessions')
+            .select('created_at')
+            .eq('project_id', projectId)
+            .gte('created_at', prevDate.toISOString()),
+          supabase
+            .from('leads')
+            .select('created_at')
+            .eq('project_id', projectId)
+            .gte('created_at', prevDate.toISOString()),
+          supabase
+            .from('widget_opens')
+            .select('created_at')
+            .eq('project_id', projectId)
+            .gte('created_at', prevDate.toISOString())
+        ])
 
         if (sessionsError) throw sessionsError
-
-        // Fetch leads
-        const { data: leads, error: leadsError } = await supabase
-          .from('leads')
-          .select('created_at')
-          .eq('project_id', projectId)
-          .gte('created_at', prevDate.toISOString())
-
         if (leadsError) throw leadsError
-
-        // Fetch widget opens
-        const { data: opens, error: opensError } = await supabase
-          .from('widget_opens')
-          .select('created_at')
-          .eq('project_id', projectId)
-          .gte('created_at', prevDate.toISOString())
-
         if (opensError) throw opensError
 
         // Process Metrics
