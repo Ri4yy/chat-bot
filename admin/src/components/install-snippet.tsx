@@ -21,7 +21,7 @@ export function InstallSnippet({ projectId }: { projectId: string }) {
 
   return (
     <div className="relative group">
-      <div className="bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-slate-500 dark:text-slate-300 p-4 rounded-md overflow-x-auto text-sm font-mono shadow-inner">
+      <div className="bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-slate-300 p-4 rounded-md overflow-x-auto text-sm font-mono shadow-inner">
         <pre>{codeString}</pre>
       </div>
       <Button

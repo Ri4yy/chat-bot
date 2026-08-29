@@ -41,20 +41,20 @@ export default async function SuperAdminPage({
       
       {/* Sidebar Menu */}
       <div className="md:col-span-1 space-y-4">
-        <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+        <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
           <CardHeader>
             <CardTitle className="text-slate-900 dark:text-slate-100">Меню</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
             <Link 
               href="/superadmin?tab=users" 
-              className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'users' ? 'bg-slate-200 dark:bg-zinc-800 text-slate-900 dark:text-white' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-zinc-800/50 hover:text-slate-700 dark:hover:text-slate-200 text-slate-500 dark:text-zinc-400'}`}
+              className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'users' ? 'bg-slate-100 dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm border border-transparent dark:border-zinc-800' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-white border border-transparent dark:hover:border-zinc-700 transition-all'}`}
             >
               <Users size={16} /> Пользователи
             </Link>
             <Link 
               href="/superadmin?tab=bots" 
-              className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'bots' ? 'bg-slate-200 dark:bg-zinc-800 text-slate-900 dark:text-white' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-slate-100 dark:bg-zinc-800/50 hover:text-slate-700 dark:hover:text-slate-200 text-slate-500 dark:text-zinc-400'}`}
+              className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'bots' ? 'bg-slate-100 dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm border border-transparent dark:border-zinc-800' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-white border border-transparent dark:hover:border-zinc-700 transition-all'}`}
             >
               <Bot size={16} /> Проекты (Боты)
             </Link>
@@ -73,7 +73,7 @@ export default async function SuperAdminPage({
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-              <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+              <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Всего пользователей</CardTitle>
                   <Users className="h-4 w-4 text-slate-500 dark:text-zinc-400" />
@@ -83,7 +83,7 @@ export default async function SuperAdminPage({
                 </CardContent>
               </Card>
               
-              <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+              <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Всего ботов создано</CardTitle>
                   <Bot className="h-4 w-4 text-slate-500 dark:text-zinc-400" />
@@ -94,7 +94,7 @@ export default async function SuperAdminPage({
               </Card>
             </div>
 
-            <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+            <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
               <CardHeader>
                 <CardTitle>Список пользователей</CardTitle>
                 <CardDescription>Управление лимитами и доступами клиентов</CardDescription>
@@ -169,7 +169,7 @@ export default async function SuperAdminPage({
 
             {/* Global Stats for Bots */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+              <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium text-slate-500 dark:text-zinc-400">Расход (Чат)</CardTitle>
                   <MessageSquareText className="w-4 h-4 text-blue-400" />
@@ -179,7 +179,7 @@ export default async function SuperAdminPage({
                 </CardContent>
               </Card>
 
-              <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+              <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium text-slate-500 dark:text-zinc-400">Расход (База)</CardTitle>
                   <Database className="w-4 h-4 text-purple-400" />
@@ -206,7 +206,7 @@ export default async function SuperAdminPage({
             <SuperAdminTokenChart projects={allProjects} />
 
             {/* Projects Table */}
-            <Card className="bg-white dark:bg-zinc-900/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+            <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
               <CardHeader>
                 <CardTitle className="text-slate-900 dark:text-slate-100">Созданные проекты</CardTitle>
               </CardHeader>

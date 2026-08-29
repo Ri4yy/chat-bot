@@ -237,7 +237,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
         </TabsList>
         <TabsContent value="texts" className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+        <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
           <CardContent className="p-6 flex items-center gap-4">
             <div className="p-3 bg-primary/10 rounded-lg">
               <Database className="w-6 h-6 text-primary" />
@@ -249,7 +249,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
           </CardContent>
         </Card>
         
-        <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+        <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
           <CardContent className="p-6 flex items-center gap-4">
             <div className="p-3 bg-blue-500/10 rounded-lg">
               <BrainCircuit className="w-6 h-6 text-blue-500" />
@@ -262,7 +262,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
         </Card>
       </div>
 
-      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader className="flex flex-row items-center justify-between pb-4">
           <div>
             <CardTitle className="text-slate-900 dark:text-slate-100">Стартовые вопросы</CardTitle>
@@ -336,7 +336,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
         </CardContent>
       </Card>
 
-      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle className="text-slate-900 dark:text-slate-100">Содержимое памяти</CardTitle>
@@ -354,7 +354,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
           ) : documents.length === 0 ? (
-            <div className="text-center p-8 border border-slate-200 dark:border-zinc-800 border-dashed rounded-lg bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/30 text-slate-500 dark:text-zinc-500">
+            <div className="text-center p-8 border border-slate-200 dark:border-zinc-800 border-dashed rounded-lg bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none/30 text-slate-500 dark:text-zinc-500">
               База знаний пока пуста. Загрузите данные в разделе "База знаний".
             </div>
           ) : (
@@ -414,7 +414,7 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
       </Card>
         </TabsContent>
         <TabsContent value="products">
-          <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+          <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4">
               <div>
                 <CardTitle className="text-slate-900 dark:text-slate-100">Каталог товаров</CardTitle>
@@ -441,12 +441,12 @@ export function KnowledgeBaseList({ projectId, permissions = ['memory_delete'] }
                   <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               ) : products.length === 0 ? (
-                <div className="text-center p-8 border border-slate-200 dark:border-zinc-800 border-dashed rounded-lg bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/30 text-slate-500 dark:text-zinc-500">
+                <div className="text-center p-8 border border-slate-200 dark:border-zinc-800 border-dashed rounded-lg bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none/30 text-slate-500 dark:text-zinc-500">
                   Товары не найдены. Вы можете загрузить их через Excel фид на вкладке "База знаний".
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none p-2 rounded-md border border-slate-200 dark:border-zinc-800/50">
+                  <div className="flex items-center justify-between bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none p-2 rounded-md border border-slate-200 dark:border-zinc-800/50">
                     <div className="flex items-center gap-2">
                       <Checkbox
                         checked={selectedProductIds.size > 0 && selectedProductIds.size === products.length}

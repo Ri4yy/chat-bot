@@ -319,7 +319,7 @@ export function OnboardingWizard({ project }: { project: any }) {
                       placeholder="Наша компания называется Профиль, мы продаем онлайн-курсы..." 
                       value={manualText}
                       onChange={(e) => setManualText(e.target.value)}
-                      className="bg-white dark:bg-zinc-900 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 min-h-[150px] text-base focus-visible:ring-primary/50 pr-12 pb-12"
+                      className="bg-white dark:bg-zinc-900/40 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 min-h-[150px] text-base focus-visible:ring-primary/50 pr-12 pb-12"
                     />
                     <Button
                       variant="ghost"
@@ -349,7 +349,7 @@ export function OnboardingWizard({ project }: { project: any }) {
                         }
                       }}
                       disabled={isLoading || !manualText}
-                      className="absolute bottom-3 right-3 text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10 flex items-center gap-1.5 px-3 py-1.5 h-auto bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md"
+                      className="absolute bottom-3 right-3 text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10 flex items-center gap-1.5 px-3 py-1.5 h-auto bg-white dark:bg-zinc-900/40 border border-slate-200 dark:border-zinc-800 rounded-md"
                     >
                       {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                       <span className="text-xs font-medium">Улучшить ИИ</span>
@@ -394,7 +394,7 @@ export function OnboardingWizard({ project }: { project: any }) {
                     <SelectValue placeholder="Выберите стиль" />
                   </div>
                 </SelectTrigger>
-                <SelectContent side="bottom" className="bg-white dark:bg-zinc-900 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 z-[100] shadow-2xl w-[var(--radix-select-trigger-width)] max-h-[300px]">
+                <SelectContent side="bottom" className="bg-white dark:bg-zinc-900/40 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 z-[100] shadow-2xl w-[var(--radix-select-trigger-width)] max-h-[300px]">
                   {TONES.map(t => (
                     <SelectItem key={t.value} value={t.value} className="focus:bg-slate-100 dark:focus:bg-zinc-800 focus:text-slate-900 dark:focus:text-white cursor-pointer py-3 whitespace-normal break-words">
                       {t.label}
@@ -605,7 +605,7 @@ export function OnboardingWizard({ project }: { project: any }) {
                       <div className="w-12 h-12 rounded-lg border-2 border-primary bg-primary/10 flex items-center justify-center cursor-pointer">
                         <Bot className="w-6 h-6 text-primary" />
                       </div>
-                      <div className="w-12 h-12 rounded-lg border-2 border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center justify-center text-slate-500 dark:text-zinc-500 hover:text-slate-900 dark:hover:text-zinc-300 hover:border-slate-400 dark:hover:border-zinc-700 cursor-pointer transition-colors">
+                      <div className="w-12 h-12 rounded-lg border-2 border-slate-300 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 flex items-center justify-center text-slate-500 dark:text-zinc-500 hover:text-slate-900 dark:hover:text-zinc-300 hover:border-slate-400 dark:hover:border-zinc-700 cursor-pointer transition-colors">
                         <span className="text-xl">+</span>
                       </div>
                     </div>

@@ -61,7 +61,7 @@ export function LeadsList({ projectId }: { projectId: string }) {
 
   if (leads.length === 0) {
     return (
-      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-slate-200 dark:border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
         <CardHeader>
           <CardTitle>Собранные лиды</CardTitle>
           <CardDescription>Пока никто не оставил контактов. Бот будет автоматически сохранять здесь номера телефонов и email-адреса из диалогов.</CardDescription>
@@ -71,7 +71,7 @@ export function LeadsList({ projectId }: { projectId: string }) {
   }
 
   return (
-    <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-slate-200 dark:border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
       <CardHeader>
         <CardTitle>Собранные лиды ({leads.length})</CardTitle>
         <CardDescription>Здесь отображаются все контактные данные, которые клиенты оставили в чате.</CardDescription>

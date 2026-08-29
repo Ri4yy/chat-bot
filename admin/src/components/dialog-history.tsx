@@ -92,7 +92,7 @@ export function DialogHistory({ projectId }: { projectId: string }) {
 
   if (sessions.length === 0) {
     return (
-      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader>
           <CardTitle>История диалогов</CardTitle>
           <CardDescription>Здесь пока пусто. Как только кто-то напишет боту, диалог появится здесь.</CardDescription>
@@ -102,13 +102,13 @@ export function DialogHistory({ projectId }: { projectId: string }) {
   }
 
   return (
-    <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
       <CardHeader className="flex flex-row justify-between items-start">
         <div>
           <CardTitle>История диалогов</CardTitle>
           <CardDescription>Здесь сохраняются все переписки пользователей с виджетом.</CardDescription>
         </div>
-        <div className="flex items-center space-x-2 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none p-2 rounded-md border border-slate-200 dark:border-zinc-800">
+        <div className="flex items-center space-x-2 bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none p-2 rounded-md border border-slate-200 dark:border-zinc-800">
           <Switch 
             id="leads-mode" 
             checked={onlyLeads} 
@@ -133,7 +133,7 @@ export function DialogHistory({ projectId }: { projectId: string }) {
                 </div>
               </AccordionTrigger>
               <AccordionContent>
-                <div className="space-y-4 p-4 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none rounded-md border border-slate-200 dark:border-zinc-800/50 mt-2 max-h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-zinc-700 scrollbar-track-transparent">
+                <div className="space-y-4 p-4 bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none rounded-md border border-slate-200 dark:border-zinc-800/50 mt-2 max-h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-zinc-700 scrollbar-track-transparent">
                   {session.chat_messages.map(msg => (
                     <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                       <div className={`max-w-[80%] rounded-lg p-3 text-sm ${
@@ -167,7 +167,7 @@ export function DialogHistory({ projectId }: { projectId: string }) {
               size="sm"
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1 || loading}
-              className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100"
+              className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100"
             >
               Назад
             </Button>
@@ -179,7 +179,7 @@ export function DialogHistory({ projectId }: { projectId: string }) {
               size="sm"
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages || loading}
-              className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100"
+              className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800 text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100"
             >
               Вперед
             </Button>

@@ -111,7 +111,7 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader>
           <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <UserPlus className="w-5 h-5 text-slate-500 dark:text-zinc-400" />
@@ -140,7 +140,7 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
         </CardContent>
       </Card>
 
-      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader>
           <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <Shield className="w-5 h-5 text-slate-500 dark:text-zinc-400" />
@@ -154,7 +154,7 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
           {loading ? (
             <div className="text-slate-500 dark:text-zinc-500">Загрузка команды...</div>
           ) : members.length === 0 ? (
-            <div className="text-slate-500 dark:text-zinc-500 text-center py-8 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/30 rounded-lg border border-slate-200 dark:border-zinc-800 border-dashed">
+            <div className="text-slate-500 dark:text-zinc-500 text-center py-8 bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none/30 rounded-lg border border-slate-200 dark:border-zinc-800 border-dashed">
               В проекте пока нет менеджеров.
             </div>
           ) : (
@@ -178,7 +178,7 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
                   </div>
                   
                   <div className="border-t border-slate-300 dark:border-zinc-700/50 pt-4">
-                    <div className="text-sm font-medium text-slate-900 dark:text-slate-500 dark:text-slate-300 mb-3">Права доступа:</div>
+                    <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Права доступа:</div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {AVAILABLE_PERMISSIONS.map(perm => (
                         <label key={perm.id} className="flex items-start space-x-3 cursor-pointer group/label p-1">
@@ -187,7 +187,7 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
                             onCheckedChange={() => togglePermission(member, perm.id)}
                             className="mt-0.5"
                           />
-                          <span className="text-sm text-slate-500 dark:text-zinc-400 group-hover/label:text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 transition-colors">
+                          <span className="text-sm text-slate-600 dark:text-zinc-400 group-hover/label:text-slate-900 dark:group-hover/label:text-zinc-300 transition-colors">
                             {perm.label}
                           </span>
                         </label>

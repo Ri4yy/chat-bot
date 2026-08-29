@@ -70,7 +70,7 @@ export function ProjectAnalytics({ projectId }: { projectId: string }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
       
-      <Card className="bg-white dark:bg-[#09090b] shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
+      <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
         <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between items-start gap-3 pb-2 border-b border-slate-200 dark:border-zinc-800/50 mb-4">
           <div>
             <CardTitle className="text-lg font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
@@ -107,7 +107,7 @@ export function ProjectAnalytics({ projectId }: { projectId: string }) {
         </CardContent>
       </Card>
 
-      <Card className="bg-white dark:bg-[#09090b] shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
+      <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
         <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between items-start gap-3 pb-2 border-b border-slate-200 dark:border-zinc-800/50 mb-4">
           <div>
             <CardTitle className="text-lg font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">

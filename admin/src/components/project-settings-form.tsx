@@ -101,7 +101,7 @@ export function ProjectSettingsForm({ project }: { project: any }) {
                   defaultChecked={(project.rules || []).includes(rule.label + ': ' + rule.desc)}
                   className="sr-only" 
                 />
-                <div className="p-4 rounded-lg border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/30 transition-all group-hover:bg-slate-100 dark:bg-slate-50 dark:bg-zinc-800/30 group-has-[:checked]:bg-primary/10 group-has-[:checked]:border-primary/50">
+                <div className="p-4 rounded-lg border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none/30 transition-all group-hover:bg-slate-100 dark:bg-slate-50 dark:bg-zinc-800/30 group-has-[:checked]:bg-primary/10 group-has-[:checked]:border-primary/50">
                   <div className="font-medium text-slate-700 dark:text-slate-200 text-sm leading-none transition-colors group-has-[:checked]:text-primary">{rule.label}</div>
                   <div className="text-sm text-slate-500 dark:text-zinc-500 mt-1.5 leading-snug">{rule.desc}</div>
                 </div>

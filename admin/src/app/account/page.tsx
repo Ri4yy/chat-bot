@@ -33,7 +33,7 @@ export default async function AccountPage() {
       <header className="border-b border-slate-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md relative z-10">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/" className="text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-slate-900 dark:text-white transition-colors">
+            <Link href="/" className="text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white transition-colors">
               &larr; Вернуться к проектам
             </Link>
             <div className="h-6 w-px bg-slate-300 dark:bg-zinc-800"></div>

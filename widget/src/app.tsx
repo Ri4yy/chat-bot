@@ -11,7 +11,7 @@ type Message = {
 export function App({ projectId }: { projectId: string | null }) {
   const [isOpen, setIsOpen] = useState(false)
   const [config, setConfig] = useState({
-    name: 'AI Assistant',
+    name: 'Менеджер',
     theme_color: '#3b82f6',
     welcome_message: 'Привет! Чем я могу помочь?',
     icon_url: '',
@@ -178,7 +178,16 @@ export function App({ projectId }: { projectId: string | null }) {
       {/* Floating Chat Button */}
       {!isOpen && (
         <button 
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            setIsOpen(true)
+            if (projectId) {
+              fetch('http://localhost:3000/api/widget/track-open', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ projectId })
+              }).catch(console.error)
+            }
+          }}
           className="rounded-full bg-white/90 backdrop-blur-md shadow-xl flex items-center gap-3 pr-5 pl-2 py-2 hover:scale-105 transition-transform duration-200 border border-slate-100 cursor-pointer"
         >
           <div className="w-10 h-10 rounded-full bg-[var(--theme-color)] text-white shadow-sm flex items-center justify-center overflow-hidden">

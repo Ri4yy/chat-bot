@@ -68,7 +68,7 @@ export function KnowledgeBaseUpload({ projectId }: { projectId: string }) {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader>
           <CardTitle className="text-slate-900 dark:text-slate-100">Источники данных (Knowledge Base)</CardTitle>
           <CardDescription className="text-slate-500 dark:text-zinc-400">
@@ -87,7 +87,7 @@ export function KnowledgeBaseUpload({ projectId }: { projectId: string }) {
         </CardContent>
       </Card>
 
-      <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
         <CardHeader>
           <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <FileText className="w-5 h-5" />

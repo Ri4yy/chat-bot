@@ -103,7 +103,7 @@ export default async function ProjectPage({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           <div className="md:col-span-1 space-y-4">
-            <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+            <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
               <CardHeader>
                 <CardTitle className="text-slate-900 dark:text-slate-100">Меню</CardTitle>
               </CardHeader>
@@ -113,17 +113,17 @@ export default async function ProjectPage({
                   Повседневная работа
                 </div>
                 {permissions.includes('dashboard') && (
-                  <Link href={`/project/${project.id}?tab=dashboard`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'dashboard' ? 'bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:bg-slate-100 dark:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-slate-700 dark:text-slate-700 dark:text-slate-200'}`}>
+                  <Link href={`/project/${project.id}?tab=dashboard`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'dashboard' ? 'bg-slate-100 dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm border border-transparent dark:border-zinc-800' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-white border border-transparent dark:hover:border-zinc-700 transition-all'}`}>
                     <LineChart size={16} /> Аналитика
                   </Link>
                 )}
                 {permissions.includes('history') && (
-                  <Link href={`/project/${project.id}?tab=history`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'history' ? 'bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:bg-slate-100 dark:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-slate-700 dark:text-slate-700 dark:text-slate-200'}`}>
+                  <Link href={`/project/${project.id}?tab=history`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'history' ? 'bg-slate-100 dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm border border-transparent dark:border-zinc-800' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-white border border-transparent dark:hover:border-zinc-700 transition-all'}`}>
                     <MessageSquare size={16} /> История диалогов
                   </Link>
                 )}
                 {permissions.includes('leads') && (
-                  <Link href={`/project/${project.id}?tab=leads`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'leads' ? 'bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:bg-slate-100 dark:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-slate-700 dark:text-slate-700 dark:text-slate-200'}`}>
+                  <Link href={`/project/${project.id}?tab=leads`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'leads' ? 'bg-slate-100 dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm border border-transparent dark:border-zinc-800' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-white border border-transparent dark:hover:border-zinc-700 transition-all'}`}>
                     <Users size={16} /> Лиды
                   </Link>
                 )}
@@ -133,12 +133,12 @@ export default async function ProjectPage({
                   Обучение ИИ
                 </div>
                 {permissions.includes('knowledge') && (
-                  <Link href={`/project/${project.id}?tab=knowledge`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'knowledge' ? 'bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:bg-slate-100 dark:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-slate-700 dark:text-slate-700 dark:text-slate-200'}`}>
+                  <Link href={`/project/${project.id}?tab=knowledge`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'knowledge' ? 'bg-slate-100 dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm border border-transparent dark:border-zinc-800' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-white border border-transparent dark:hover:border-zinc-700 transition-all'}`}>
                     <Database size={16} /> База знаний (Загрузка)
                   </Link>
                 )}
                 {permissions.includes('memory_view') && (
-                  <Link href={`/project/${project.id}?tab=memory`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'memory' ? 'bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:bg-slate-100 dark:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-slate-700 dark:text-slate-700 dark:text-slate-200'}`}>
+                  <Link href={`/project/${project.id}?tab=memory`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'memory' ? 'bg-slate-100 dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm border border-transparent dark:border-zinc-800' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-white border border-transparent dark:hover:border-zinc-700 transition-all'}`}>
                     <Brain size={16} /> Управление памятью
                   </Link>
                 )}
@@ -148,22 +148,22 @@ export default async function ProjectPage({
                   Настройки
                 </div>
                 {permissions.includes('settings') && (
-                  <Link href={`/project/${project.id}?tab=settings`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'settings' ? 'bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:bg-slate-100 dark:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-slate-700 dark:text-slate-700 dark:text-slate-200'}`}>
+                  <Link href={`/project/${project.id}?tab=settings`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'settings' ? 'bg-slate-100 dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm border border-transparent dark:border-zinc-800' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-white border border-transparent dark:hover:border-zinc-700 transition-all'}`}>
                     <Settings size={16} /> Настройки бота
                   </Link>
                 )}
                 {permissions.includes('settings') && (
-                  <Link href={`/project/${project.id}?tab=integrations`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'integrations' ? 'bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:bg-slate-100 dark:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-slate-700 dark:text-slate-700 dark:text-slate-200'}`}>
+                  <Link href={`/project/${project.id}?tab=integrations`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'integrations' ? 'bg-slate-100 dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm border border-transparent dark:border-zinc-800' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-white border border-transparent dark:hover:border-zinc-700 transition-all'}`}>
                     <Plug size={16} /> Интеграции
                   </Link>
                 )}
                 {permissions.includes('install') && (
-                  <Link href={`/project/${project.id}?tab=install`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'install' ? 'bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:bg-slate-100 dark:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-slate-700 dark:text-slate-700 dark:text-slate-200'}`}>
+                  <Link href={`/project/${project.id}?tab=install`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'install' ? 'bg-slate-100 dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm border border-transparent dark:border-zinc-800' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-white border border-transparent dark:hover:border-zinc-700 transition-all'}`}>
                     <Code size={16} /> Установка виджета
                   </Link>
                 )}
                 {isOwner && (
-                  <Link href={`/project/${project.id}?tab=team`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'team' ? 'bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:bg-slate-100 dark:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-slate-700 dark:text-slate-700 dark:text-slate-200'}`}>
+                  <Link href={`/project/${project.id}?tab=team`} className={`px-4 py-2 flex items-center gap-2 text-sm font-medium rounded-md transition-colors ${tab === 'team' ? 'bg-slate-100 dark:bg-zinc-800/80 text-slate-900 dark:text-white shadow-sm border border-transparent dark:border-zinc-800' : 'text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/50 hover:text-slate-900 dark:hover:text-white border border-transparent dark:hover:border-zinc-700 transition-all'}`}>
                     <Shield size={16} /> Команда
                   </Link>
                 )}
@@ -175,7 +175,7 @@ export default async function ProjectPage({
             {tab === 'dashboard' ? (
               <ProjectDashboard projectId={project.id} />
             ) : tab === 'settings' ? (
-              <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+              <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
                 <CardHeader>
                   <CardTitle className="text-slate-900 dark:text-slate-100">Настройки виджета</CardTitle>
                   <CardDescription className="text-slate-500 dark:text-zinc-400">Настройте внешний вид и поведение вашего ИИ виджета.</CardDescription>
@@ -185,7 +185,7 @@ export default async function ProjectPage({
                 </CardContent>
               </Card>
             ) : tab === 'integrations' ? (
-              <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+              <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
                 <CardHeader>
                   <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center gap-2">Интеграции</CardTitle>
                   <CardDescription className="text-slate-500 dark:text-zinc-400">Подключение сторонних сервисов и настройка API.</CardDescription>
@@ -195,7 +195,7 @@ export default async function ProjectPage({
                 </CardContent>
               </Card>
             ) : tab === 'install' ? (
-              <Card className="bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none/50 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800">
+              <Card className="bg-white dark:bg-zinc-900/40 shadow-sm dark:shadow-none border-slate-200 dark:border-zinc-800/50">
                 <CardHeader>
                   <CardTitle className="text-slate-900 dark:text-slate-100">Установка виджета</CardTitle>
                   <CardDescription className="text-slate-500 dark:text-zinc-400">Скопируйте и вставьте этот код на ваш сайт внутри тега &lt;head&gt; или перед закрывающим тегом &lt;/body&gt;.</CardDescription>

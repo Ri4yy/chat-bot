@@ -3,18 +3,21 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { MessageSquareText, Users, Activity, Loader2, ArrowUpRight, ArrowDownRight } from 'lucide-react'
+import { MousePointerClick,  MessageSquareText, Users, Activity, Loader2, ArrowUpRight, ArrowDownRight  } from 'lucide-react'
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts'
 import { Button } from '@/components/ui/button'
 import { ProjectAnalytics } from '@/components/project-analytics'
 
 type ChartDataPoint = {
   date: string
+  opens: number
   sessions: number
   leads: number
 }
 
 type DashboardStats = {
+  currentOpens: number
+  opensTrend: number
   currentSessions: number
   sessionsTrend: number
   currentLeads: number
@@ -73,21 +76,35 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
 
         if (leadsError) throw leadsError
 
+        // Fetch widget opens
+        const { data: opens, error: opensError } = await supabase
+          .from('widget_opens')
+          .select('created_at')
+          .eq('project_id', projectId)
+          .gte('created_at', prevDate.toISOString())
+
+        if (opensError) throw opensError
+
         // Process Metrics
         const currentSessions = sessions.filter(s => new Date(s.created_at) >= fromDate).length
         const previousSessions = sessions.filter(s => new Date(s.created_at) < fromDate).length
         
         const currentLeads = leads.filter(l => new Date(l.created_at) >= fromDate).length
         const previousLeads = leads.filter(l => new Date(l.created_at) < fromDate).length
+        
+        const currentOpens = opens.filter(o => new Date(o.created_at) >= fromDate).length
+        const previousOpens = opens.filter(o => new Date(o.created_at) < fromDate).length
 
-        const currentConversion = currentSessions > 0 ? (currentLeads / currentSessions) * 100 : 0
-        const previousConversion = previousSessions > 0 ? (previousLeads / previousSessions) * 100 : 0
+        // Conversion now calculated as Leads / Opens
+        const currentConversion = currentOpens > 0 ? (currentLeads / currentOpens) * 100 : 0
+        const previousConversion = previousOpens > 0 ? (previousLeads / previousOpens) * 100 : 0
 
         const calcTrend = (current: number, previous: number) => {
           if (previous === 0) return current > 0 ? 100 : 0
           return ((current - previous) / previous) * 100
         }
 
+        const opensTrend = calcTrend(currentOpens, previousOpens)
         const sessionsTrend = calcTrend(currentSessions, previousSessions)
         const leadsTrend = calcTrend(currentLeads, previousLeads)
         const conversionTrend = currentConversion - previousConversion
@@ -101,7 +118,7 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
             const d = new Date()
             d.setHours(now.getHours() - i)
             const dateStr = d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
-            chartDataMap.set(dateStr, { date: dateStr, sessions: 0, leads: 0 })
+            chartDataMap.set(dateStr, { date: dateStr, opens: 0, sessions: 0, leads: 0 })
           }
 
           sessions.filter(s => new Date(s.created_at) >= fromDate).forEach(s => {
@@ -121,7 +138,7 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
             const hour = d.getHours()
             const dateStr = `${hour.toString().padStart(2, '0')}:00`
             if (!chartDataMap.has(dateStr)) {
-              chartDataMap.set(dateStr, { date: dateStr, sessions: 0, leads: 0 })
+              chartDataMap.set(dateStr, { date: dateStr, opens: 0, sessions: 0, leads: 0 })
             }
           }
           sessions.filter(s => new Date(s.created_at) >= fromDate).forEach(s => {
@@ -134,13 +151,18 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
             const dateStr = `${d.getHours().toString().padStart(2, '0')}:00`
             if (chartDataMap.has(dateStr)) chartDataMap.get(dateStr)!.leads++
           })
+          opens.filter(o => new Date(o.created_at) >= fromDate).forEach(o => {
+            const d = new Date(o.created_at)
+            const dateStr = `${d.getHours().toString().padStart(2, '0')}:00`
+            if (chartDataMap.has(dateStr)) chartDataMap.get(dateStr)!.opens++
+          })
         } else {
           // Group by day for week/month
           for (let i = daysCount - 1; i >= 0; i--) {
             const d = new Date()
             d.setDate(now.getDate() - i)
             const dateStr = d.toLocaleDateString('ru-RU', { month: 'short', day: 'numeric' })
-            chartDataMap.set(dateStr, { date: dateStr, sessions: 0, leads: 0 })
+            chartDataMap.set(dateStr, { date: dateStr, opens: 0, sessions: 0, leads: 0 })
           }
 
           sessions.filter(s => new Date(s.created_at) >= fromDate).forEach(s => {
@@ -152,9 +174,15 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
             const dateStr = new Date(l.created_at).toLocaleDateString('ru-RU', { month: 'short', day: 'numeric' })
             if (chartDataMap.has(dateStr)) chartDataMap.get(dateStr)!.leads++
           })
+          opens.filter(o => new Date(o.created_at) >= fromDate).forEach(o => {
+            const dateStr = new Date(o.created_at).toLocaleDateString('ru-RU', { month: 'short', day: 'numeric' })
+            if (chartDataMap.has(dateStr)) chartDataMap.get(dateStr)!.opens++
+          })
         }
 
         setStats({
+          currentOpens,
+          opensTrend,
           currentSessions,
           sessionsTrend,
           currentLeads,
@@ -212,7 +240,7 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
           <p className="text-slate-500 dark:text-zinc-400 mt-1">Ключевые показатели работы ИИ-ассистента.</p>
         </div>
         
-        <div className="flex flex-wrap bg-white dark:bg-[#09090b] p-1 rounded-lg border border-slate-200 dark:border-zinc-800/50 shadow-sm">
+        <div className="flex flex-wrap bg-white dark:bg-zinc-900/40 p-1 rounded-lg border border-slate-200 dark:border-zinc-800/50 shadow-sm">
           <Button 
             variant="ghost" 
             size="sm" 
@@ -249,8 +277,26 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
       ) : (
         <>
           {/* Metrics Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Card className="bg-white dark:bg-[#09090b] border-slate-200 dark:border-zinc-800/50 hover:border-slate-300 dark:border-zinc-700/50 transition-colors shadow-none">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Card className="bg-white dark:bg-zinc-900/40 border-slate-200 dark:border-zinc-800/50 hover:border-slate-300 dark:border-zinc-700/50 transition-colors shadow-none">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-slate-500 dark:text-zinc-400">Открытий виджета</CardTitle>
+                <MousePointerClick className="w-4 h-4 text-slate-500 dark:text-zinc-500" />
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                  <div>
+                    <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">{stats?.currentOpens.toLocaleString()}</div>
+                    <p className="text-xs text-slate-500 dark:text-zinc-500 mt-2">
+                      <span className="text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300">Окно развернуто</span>
+                    </p>
+                  </div>
+                  <div className="mb-1">{renderTrendBadge(stats?.opensTrend || 0)}</div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white dark:bg-zinc-900/40 border-slate-200 dark:border-zinc-800/50 hover:border-slate-300 dark:border-zinc-700/50 transition-colors shadow-none">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-slate-500 dark:text-zinc-400">Диалоги ({periodLabels[timeRange]})</CardTitle>
                 <MessageSquareText className="w-4 h-4 text-slate-500 dark:text-zinc-500" />
@@ -268,7 +314,7 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
               </CardContent>
             </Card>
 
-            <Card className="bg-white dark:bg-[#09090b] border-slate-200 dark:border-zinc-800/50 hover:border-slate-300 dark:border-zinc-700/50 transition-colors shadow-none">
+            <Card className="bg-white dark:bg-zinc-900/40 border-slate-200 dark:border-zinc-800/50 hover:border-slate-300 dark:border-zinc-700/50 transition-colors shadow-none">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-slate-500 dark:text-zinc-400">Собрано Лидов ({periodLabels[timeRange]})</CardTitle>
                 <Users className="w-4 h-4 text-slate-500 dark:text-zinc-500" />
@@ -286,7 +332,7 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
               </CardContent>
             </Card>
 
-            <Card className="bg-white dark:bg-[#09090b] border-slate-200 dark:border-zinc-800/50 hover:border-slate-300 dark:border-zinc-700/50 transition-colors shadow-none">
+            <Card className="bg-white dark:bg-zinc-900/40 border-slate-200 dark:border-zinc-800/50 hover:border-slate-300 dark:border-zinc-700/50 transition-colors shadow-none">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-slate-500 dark:text-zinc-400">Конверсия ({periodLabels[timeRange]})</CardTitle>
                 <Activity className="w-4 h-4 text-slate-500 dark:text-zinc-500" />
@@ -306,13 +352,14 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
           </div>
 
           {/* Chart Area */}
-          <Card className="bg-white dark:bg-[#09090b] border-slate-200 dark:border-zinc-800/50 shadow-none">
+          <Card className="bg-white dark:bg-zinc-900/40 border-slate-200 dark:border-zinc-800/50 shadow-none">
             <CardHeader className="flex flex-row items-center justify-between border-b border-slate-200 dark:border-zinc-800/50 pb-4 mb-4">
               <div>
                 <CardTitle className="text-lg font-semibold text-slate-900 dark:text-slate-100">Активность пользователей</CardTitle>
-                <CardDescription className="text-slate-500 dark:text-zinc-400 mt-1">График диалогов и собранных лидов {periodDesc[timeRange]}</CardDescription>
+                <CardDescription className="text-slate-500 dark:text-zinc-400 mt-1">График активности {periodDesc[timeRange]}</CardDescription>
               </div>
               <div className="flex gap-2">
+                <div className="flex items-center text-xs text-slate-500 dark:text-zinc-400"><span className="w-2 h-2 rounded-full bg-purple-500 mr-2"></span>Открытия</div>
                 <div className="flex items-center text-xs text-slate-500 dark:text-zinc-400"><span className="w-2 h-2 rounded-full bg-blue-500 mr-2"></span>Диалоги</div>
                 <div className="flex items-center text-xs text-slate-500 dark:text-zinc-400"><span className="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>Лиды</div>
               </div>
@@ -322,6 +369,10 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={stats?.chartData || []} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
                     <defs>
+                      <linearGradient id="colorOpens" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                      </linearGradient>
                       <linearGradient id="colorSessions" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
                         <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
@@ -348,7 +399,7 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
                       content={({ active, payload, label }) => {
                         if (active && payload && payload.length) {
                           return (
-                            <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-3 rounded-lg shadow-sm text-sm text-slate-900 dark:text-slate-100">
+                            <div className="bg-white dark:bg-zinc-900/40 border border-slate-200 dark:border-zinc-800 p-3 rounded-lg shadow-sm text-sm text-slate-900 dark:text-slate-100">
                               <p className="font-medium mb-1">{label}</p>
                               {payload.map((entry, index) => (
                                 <p key={index} style={{color: entry.color}}>
@@ -361,6 +412,15 @@ export function ProjectDashboard({ projectId }: { projectId: string }) {
                         return null;
                       }}
                       cursor={{fill: 'transparent'}}
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="opens" 
+                      name="Открытия виджета" 
+                      stroke="#8b5cf6" 
+                      strokeWidth={2}
+                      fillOpacity={1} 
+                      fill="url(#colorOpens)" 
                     />
                     <Area 
                       type="monotone" 
