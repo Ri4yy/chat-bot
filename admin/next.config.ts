@@ -14,6 +14,19 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  async headers() {
+    return [
+      {
+        source: '/chat-widget.js',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

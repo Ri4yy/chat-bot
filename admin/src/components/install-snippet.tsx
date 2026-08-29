@@ -48,7 +48,7 @@ export function InstallSnippet({ projectId }: { projectId: string }) {
 
   const devCode = `<!-- Загрузка виджета (Development Mode) -->\n<script type="module" src="http://localhost:5173/@vite/client"></script>\n<script type="module" src="http://localhost:5173/src/main.tsx" data-project-id="${projectId}"></script>`
   
-  const prodCode = `<!-- Загрузка виджета (Production) -->\n<script src="${appUrl}/widget.js" data-project-id="${projectId}"></script>`
+  const prodCode = `<!-- Загрузка виджета (Production) -->\n<script type="module" crossorigin src="${appUrl}/chat-widget.js" data-project-id="${projectId}"></script>`
 
   return (
     <div className="space-y-6 mt-4">

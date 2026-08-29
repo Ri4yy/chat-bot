@@ -8,9 +8,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        entryFileNames: 'widget.js',
+        entryFileNames: 'chat-widget.js',
         chunkFileNames: 'widget-[name].js',
-        assetFileNames: 'widget-[name].[ext]'
+        assetFileNames: 'chat-widget.[ext]'
       }
     }
   }
