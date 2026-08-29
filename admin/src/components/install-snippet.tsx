@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Check, Copy } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -38,7 +38,13 @@ function CodeBlock({ codeString, title }: { codeString: string, title: string })
 }
 
 export function InstallSnippet({ projectId }: { projectId: string }) {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  const [appUrl, setAppUrl] = useState('http://localhost:3000')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setAppUrl(window.location.origin)
+    }
+  }, [])
 
   const devCode = `<!-- Загрузка виджета (Development Mode) -->\n<script type="module" src="http://localhost:5173/@vite/client"></script>\n<script type="module" src="http://localhost:5173/src/main.tsx" data-project-id="${projectId}"></script>`
   
