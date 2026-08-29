@@ -108,7 +108,7 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
             
             const currentDisplayed = fullText.substring(0, displayedLength)
             setMessages(prev => prev.map(m => 
-              m.id === assistantId ? { ...m, content: currentDisplayed.replace(/\[([^\]]*)$/, '').replace(/\[([^\]]+)\]\s*$/, '').trim() } : m
+              m.id === assistantId ? { ...m, content: currentDisplayed.replace(/\[([^\]]*)$/, '').replace(/\[([^\]]+)\][\s.!?]*$/, '').trim() } : m
             ))
           } else if (!isReading) {
             if (typeWriterInterval) clearInterval(typeWriterInterval)
@@ -116,9 +116,9 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
             // Final parse when completely done
             let suggestions: string[] | undefined = undefined
             let finalText = fullText
-            const match = finalText.match(/\[([^\]]+)\]\s*$/)
+            const match = finalText.match(/\[([^\]]+)\][\s.!?]*$/)
             if (match) {
-              finalText = finalText.replace(/\[([^\]]+)\]\s*$/, '').trim()
+              finalText = finalText.replace(/\[([^\]]+)\][\s.!?]*$/, '').trim()
               suggestions = match[1].split('|').map(s => s.trim())
             }
 
@@ -140,9 +140,9 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
         fullText = await res.text()
         
         let suggestions: string[] | undefined = undefined
-        const match = fullText.match(/\[([^\]]+)\]\s*$/)
+        const match = fullText.match(/\[([^\]]+)\][\s.!?]*$/)
         if (match) {
-          fullText = fullText.replace(/\[([^\]]+)\]\s*$/, '').trim()
+          fullText = fullText.replace(/\[([^\]]+)\][\s.!?]*$/, '').trim()
           suggestions = match[1].split('|').map(s => s.trim())
         }
 
@@ -153,14 +153,14 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
       
     } catch (error) {
       console.error('Error fetching chat:', error)
+      if (typeWriterInterval) {
+        clearInterval(typeWriterInterval)
+      }
       setMessages(prev => prev.map(m => 
         m.id === assistantId ? { ...m, content: 'Sorry, I encountered an error. Please try again later.' } : m
       ))
     } finally {
       setIsLoading(false)
-      if (typeWriterInterval) {
-        clearInterval(typeWriterInterval)
-      }
     }
   }
 
