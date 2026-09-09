@@ -4,8 +4,8 @@ import { generateText } from 'ai'
 import { createOpenAI } from '@ai-sdk/openai'
 import { decrypt } from '@/lib/encryption'
 
-function getOpenRouter(apiKey?: string | null) {
-  const finalKey = (apiKey ? decrypt(apiKey) : null) || process.env.ROUTERAI_API_KEY
+function getOpenRouter() {
+  const finalKey = process.env.ROUTERAI_API_KEY
   return createOpenAI({
     baseURL: 'https://routerai.ru/api/v1',
     apiKey: finalKey,
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized for this project' }, { status: 403 })
     }
 
-    const openrouter = getOpenRouter(project?.openrouter_api_key)
+    const openrouter = getOpenRouter()
 
     // Fetch documents
     const { data: documents } = await supabase.from('documents').select('content').eq('project_id', projectId)

@@ -5,8 +5,8 @@ import { NextResponse } from 'next/server'
 import { generateEmbedding } from '@/lib/embeddings'
 import { decrypt } from '@/lib/encryption'
 
-function getOpenRouter(apiKey?: string | null) {
-  const finalKey = (apiKey ? decrypt(apiKey) : null) || process.env.ROUTERAI_API_KEY
+function getOpenRouter() {
+  const finalKey = process.env.ROUTERAI_API_KEY
   return createOpenAI({
     baseURL: 'https://routerai.ru/api/v1',
     apiKey: finalKey,
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     const [projectResult, embeddingResult] = await Promise.all([
       supabase
         .from('projects')
-        .select('name, system_prompt, tone, rules, user_id, openrouter_api_key, b24_webhook_url, amo_webhook_url')
+        .select('name, system_prompt, tone, rules, user_id, b24_webhook_url, amo_webhook_url')
         .eq('id', projectId)
         .single(),
       generateEmbedding(lastMessage.content).catch(err => {
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
     const { embedding, usage: embedUsage } = embeddingResult
     let totalExtraTokens = embedUsage
     
-    const openrouter = getOpenRouter(project.openrouter_api_key)
+    const openrouter = getOpenRouter()
 
     // --- DIALOG PERSISTENCE & LEAD DETECTION ---
     if (sessionId) {
@@ -240,7 +240,7 @@ ${contextText}
 `
     // 5. Call LLM with streaming
     const result = await streamText({
-      model: openrouter('z-ai/glm-5.3-flash'),
+      model: openrouter('google/gemini-2.5-flash-lite'),
       system: systemPrompt,
       messages: messages,
       temperature: 0.7, // Adjust temperature for better roleplay/rules performance

@@ -82,12 +82,7 @@ export async function updateProjectSettings(projectId: string, formData: FormDat
     updateData.icon_url = publicUrlData.publicUrl
   }
 
-  if (formData.has('openrouter_api_key')) {
-    const key = formData.get('openrouter_api_key') as string
-    if (key !== '********') {
-      updateData.openrouter_api_key = key.trim() ? encrypt(key.trim()) : null
-    }
-  }
+
 
   if (formData.has('b24_webhook_url')) {
     updateData.b24_webhook_url = formData.get('b24_webhook_url') as string

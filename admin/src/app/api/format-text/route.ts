@@ -4,8 +4,8 @@ import { generateText } from 'ai'
 import { createOpenAI } from '@ai-sdk/openai'
 import { decrypt } from '@/lib/encryption'
 
-function getOpenRouter(apiKey?: string | null) {
-  const finalKey = (apiKey ? decrypt(apiKey) : null) || process.env.ROUTERAI_API_KEY
+function getOpenRouter() {
+  const finalKey = process.env.ROUTERAI_API_KEY
   return createOpenAI({
     baseURL: 'https://routerai.ru/api/v1',
     apiKey: finalKey,
@@ -33,14 +33,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Text is required' }, { status: 400 })
     }
 
-    let routeraiApiKey = null
-    if (projectId) {
-      const { data: project } = await supabase.from('projects').select('openrouter_api_key').eq('id', projectId).single()
-      if (project?.openrouter_api_key) {
-        routeraiApiKey = project.openrouter_api_key
-      }
-    }
-    const openrouter = getOpenRouter(routeraiApiKey)
+    const openrouter = getOpenRouter()
 
     // Check token usage
     const { data: usageData, error: usageError } = await supabase

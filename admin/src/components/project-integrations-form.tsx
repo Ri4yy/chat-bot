@@ -28,26 +28,7 @@ export function ProjectIntegrationsForm({ project }: { project: any }) {
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="openrouter_api_key" className="text-slate-500 dark:text-zinc-500 dark:text-slate-700 dark:text-zinc-300 font-semibold text-lg flex items-center gap-2">
-            <Plug size={18} className="text-slate-500 dark:text-zinc-400" />
-            Свой API Ключ (RouterAI)
-          </Label>
-          <p className="text-sm text-slate-500 dark:text-zinc-500">
-            Для работы бота на вашем аккаунте вставьте ваш личный ключ RouterAI. Ключ хранится в зашифрованном виде.
-            <br/>Если ключ не указан — будет использоваться резервный тестовый ключ платформы.
-          </p>
-          <Input 
-            id="openrouter_api_key" 
-            name="openrouter_api_key" 
-            type="password"
-            placeholder="sk-or-v1-..."
-            defaultValue={project.openrouter_api_key ? '********' : ''} 
-            className="bg-slate-100 dark:bg-white dark:bg-zinc-800/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100/50 border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-slate-100 focus-visible:ring-primary/50 font-mono" 
-          />
-        </div>
-      </div>
+
 
       <div className="space-y-4 border-t border-slate-200 dark:border-zinc-800 pt-6 pb-2">
         <div className="space-y-2">
