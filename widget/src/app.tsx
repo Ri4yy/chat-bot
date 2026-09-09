@@ -282,14 +282,13 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
                 {msg.suggestions && msg.suggestions.length > 0 && idx === messages.length - 1 && (
                   <div className="flex flex-wrap gap-2 ml-10">
                     {msg.suggestions.map((suggestion, sIdx) => (
-                      <button 
+                      <div 
                         key={sIdx}
-                        disabled={isLoading}
-                        onClick={() => handleSend(suggestion)}
-                        className="bg-white/90 border border-slate-200 text-slate-700 px-3.5 py-1.5 rounded-full text-xs font-medium hover:bg-[var(--theme-color)] hover:text-white hover:border-[var(--theme-color)] transition-all shadow-sm cursor-pointer disabled:opacity-50"
+                        onClick={() => !isLoading && handleSend(suggestion)}
+                        className={`bg-white/90 border border-slate-200 text-slate-700 px-3.5 py-1.5 rounded-full !text-xs !leading-normal !font-sans font-medium hover:bg-[var(--theme-color)] hover:text-white hover:border-[var(--theme-color)] transition-all shadow-sm cursor-pointer ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                       >
                         {suggestion}
-                      </button>
+                      </div>
                     ))}
                   </div>
                 )}
@@ -303,14 +302,13 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
             <div className="px-5 pb-2">
               <div className="flex flex-wrap gap-2 justify-end">
                 {config.quick_questions.map((question, qIdx) => (
-                  <button 
+                  <div 
                     key={qIdx}
-                    disabled={isLoading}
-                    onClick={() => handleSend(question)}
-                    className="bg-white border border-[var(--theme-color)]/30 text-slate-700 px-3 py-1.5 rounded-2xl text-[13px] font-medium hover:bg-[var(--theme-color)] hover:text-white transition-all shadow-sm cursor-pointer disabled:opacity-50"
+                    onClick={() => !isLoading && handleSend(question)}
+                    className={`bg-white border border-[var(--theme-color)]/30 text-slate-700 px-3 py-1.5 rounded-2xl !text-[13px] !leading-normal !font-sans font-medium hover:bg-[var(--theme-color)] hover:text-white transition-all shadow-sm cursor-pointer ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
                   >
                     {question}
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
@@ -322,7 +320,7 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
               <input
                 type="text"
                 placeholder="Задайте любой вопрос"
-                className="w-full bg-transparent border-none py-3 pl-4 pr-12 text-sm focus:outline-none text-slate-800 placeholder:text-slate-400"
+                className="w-full bg-transparent border-none py-3 pl-4 pr-12 !text-sm !leading-normal !font-sans !m-0 focus:outline-none text-slate-800 placeholder:text-slate-400"
                 value={input}
                 onInput={(e) => setInput((e.target as HTMLInputElement).value)}
                 disabled={isLoading}
