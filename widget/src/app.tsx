@@ -228,7 +228,7 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
                 )}
               </div>
               <div>
-                <h2 className="font-semibold text-slate-800 text-base leading-tight">{config.name}</h2>
+                <div className="font-semibold text-slate-800 text-base leading-tight m-0 p-0">{config.name}</div>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                   <span className="text-xs text-green-500 font-medium leading-none">online</span>
