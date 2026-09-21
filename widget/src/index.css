@@ -106,7 +106,7 @@
   width: 34px !important;
   height: 34px !important;
   border-radius: 9999px !important;
-  background-color: #f1f5f9 !important;
+  background-color: var(--theme-color, #1354fc) !important;
   color: #1354FC !important;
   display: flex !important;
   align-items: center !important;
