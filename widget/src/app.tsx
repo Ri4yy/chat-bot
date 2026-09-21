@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'preact/hooks'
-import { MessageCircle, X, Send, Bot } from 'lucide-preact'
+import { MessageCircle, X, Send, Bot, RotateCcw } from 'lucide-preact'
 
 type Message = {
   id: string
@@ -10,9 +10,25 @@ type Message = {
 
 export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId: string | null, apiUrl?: string }) {
   const [isOpen, setIsOpen] = useState(false)
+  const isOpenRef = useRef(isOpen)
+  const [showProactiveBubble, setShowProactiveBubble] = useState(false)
+  const [isClosingBubble, setIsClosingBubble] = useState(false)
+  const [hasDismissedBubble, setHasDismissedBubble] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
+  const [isResetting, setIsResetting] = useState(false)
+
+  useEffect(() => {
+    isOpenRef.current = isOpen
+    if (isOpen) {
+      setShowProactiveBubble(false)
+      setIsClosingBubble(false)
+      setUnreadCount(0)
+    }
+  }, [isOpen])
+
   const [config, setConfig] = useState({
     name: 'Менеджер',
-    theme_color: '#3b82f6',
+    theme_color: '#1354FC',
     welcome_message: 'Привет! Чем я могу помочь?',
     icon_url: '',
     quick_questions: [] as string[],
@@ -50,7 +66,7 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
   }
   
   // Generate a unique session ID for this chat window
-  const [sessionId] = useState(() => {
+  const [sessionId, setSessionId] = useState(() => {
     if (typeof crypto !== 'undefined' && crypto.randomUUID) {
       return crypto.randomUUID()
     }
@@ -76,7 +92,7 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
             }
             document.documentElement.style.setProperty('--theme-color', data.theme_color)
             setMessages([
-              { id: '1', role: 'assistant', content: data.welcome_message }
+              { id: Date.now().toString(), role: 'assistant', content: data.welcome_message }
             ])
           }
         })
@@ -89,6 +105,64 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }, [messages])
+
+  useEffect(() => {
+    try {
+      sessionStorage.removeItem('cw_proactive_seen')
+      sessionStorage.removeItem('cw_proactive_dismissed')
+    } catch {}
+
+    if (isOpen || hasDismissedBubble || messages.length > 1) return
+
+    const timer = setTimeout(() => {
+      if (!isOpenRef.current && !hasDismissedBubble) {
+        setShowProactiveBubble(true)
+        setUnreadCount(prev => (prev === 0 ? 1 : prev))
+      }
+    }, 3500)
+
+    return () => clearTimeout(timer)
+  }, [isOpen, hasDismissedBubble, messages.length])
+
+  function closeProactiveBubble() {
+    setIsClosingBubble(true)
+    setHasDismissedBubble(true)
+    setTimeout(() => {
+      setShowProactiveBubble(false)
+      setIsClosingBubble(false)
+    }, 400)
+  }
+
+  function openChat() {
+    setIsOpen(true)
+    setShowProactiveBubble(false)
+    setIsClosingBubble(false)
+    setHasDismissedBubble(true)
+    setUnreadCount(0)
+    if (projectId) {
+      fetch(`${apiUrl}/api/widget/track-open`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ projectId })
+      }).catch(console.error)
+    }
+  }
+
+  function handleResetChat() {
+    setIsResetting(true)
+    setTimeout(() => setIsResetting(false), 500)
+
+    const newSessionId = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, (c: any) =>
+          (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        )
+    setSessionId(newSessionId)
+    setMessages([
+      { id: Date.now().toString(), role: 'assistant', content: config.welcome_message }
+    ])
+    setInput('')
+  }
 
   async function handleSend(textToSend: string) {
     if (!textToSend.trim() || !projectId) return
@@ -129,6 +203,7 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
       const decoder = new TextDecoder()
       let fullText = ''
       let displayedLength = 0
+      let hasMarkedUnread = false
       let isReading = true
 
       if (reader) {
@@ -145,6 +220,11 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
             setMessages(prev => prev.map(m => 
               m.id === assistantId ? { ...m, content: currentDisplayed.replace(/\[([^\]]*)$/, '').replace(/\[([^\]]+)\][\s.!?]*$/, '').trim() } : m
             ))
+
+            if (!isOpenRef.current && !hasMarkedUnread && displayedLength > 0) {
+              hasMarkedUnread = true
+              setUnreadCount(prev => prev + 1)
+            }
           } else if (!isReading) {
             if (typeWriterInterval) clearInterval(typeWriterInterval)
             
@@ -160,6 +240,11 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
             setMessages(prev => prev.map(m => 
               m.id === assistantId ? { ...m, content: finalText, suggestions } : m
             ))
+
+            if (!isOpenRef.current && !hasMarkedUnread) {
+              hasMarkedUnread = true
+              setUnreadCount(prev => prev + 1)
+            }
           }
         }, 20) // 20ms per tick
 
@@ -184,6 +269,10 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
         setMessages(prev => prev.map(m => 
           m.id === assistantId ? { ...m, content: fullText, suggestions } : m
         ))
+
+        if (!isOpenRef.current) {
+          setUnreadCount(prev => prev + 1)
+        }
       }
       
     } catch (error) {
@@ -221,19 +310,39 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
 
   return (
     <div>
+      {/* Proactive Welcome Bubble */}
+      {showProactiveBubble && !isOpen && (
+        <div className={`cw-proactive-bubble ${isClosingBubble ? 'cw-bubble-closing' : 'cw-bubble-entering'}`}>
+          <div className="cw-proactive-body" onClick={openChat}>
+            <div className="cw-proactive-avatar">
+              {config.icon_url ? (
+                <img src={config.icon_url} alt="Bot Icon" />
+              ) : (
+                <Bot size={18} />
+              )}
+            </div>
+            <div className="cw-proactive-text-wrap">
+              <div className="cw-proactive-name">{config.name}</div>
+              <div className="cw-proactive-msg">{config.welcome_message}</div>
+            </div>
+          </div>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation()
+              closeProactiveBubble()
+            }}
+            className="cw-proactive-close"
+            aria-label="Закрыть подсказку"
+          >
+            <X size={14} />
+          </button>
+        </div>
+      )}
+
       {/* Floating Chat Button */}
       {!isOpen && (
         <button 
-          onClick={() => {
-            setIsOpen(true)
-            if (projectId) {
-              fetch(`${apiUrl}/api/widget/track-open`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ projectId })
-              }).catch(console.error)
-            }
-          }}
+          onClick={openChat}
           className="cw-launcher-btn"
         >
           <div className="cw-launcher-icon">
@@ -244,6 +353,9 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
             )}
           </div>
           <span className="cw-launcher-text">Задать вопрос</span>
+          {unreadCount > 0 && (
+            <span className="cw-unread-badge">{unreadCount}</span>
+          )}
         </button>
       )}
 
@@ -269,9 +381,19 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
                 </div>
               </div>
             </div>
-            <button onClick={() => setIsOpen(false)} className="cw-close-btn" aria-label="Закрыть">
-              <X size={20} />
-            </button>
+            <div className="cw-header-actions">
+              <button 
+                onClick={handleResetChat} 
+                className={`cw-reset-btn ${isResetting ? 'cw-btn-rotating' : ''}`}
+                title="Начать новый диалог"
+                aria-label="Начать новый диалог"
+              >
+                <RotateCcw size={16} />
+              </button>
+              <button onClick={() => setIsOpen(false)} className="cw-close-btn" aria-label="Закрыть">
+                <X size={20} />
+              </button>
+            </div>
           </div>
 
           {/* Messages */}
