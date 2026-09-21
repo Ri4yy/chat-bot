@@ -346,11 +346,7 @@ export function App({ projectId, apiUrl = 'http://localhost:3000' }: { projectId
           className="cw-launcher-btn"
         >
           <div className="cw-launcher-icon">
-            {config.icon_url ? (
-              <img src={config.icon_url} alt="Bot Icon" />
-            ) : (
-              <MessageCircle size={20} />
-            )}
+            <MessageCircle size={20} />
           </div>
           <span className="cw-launcher-text">Задать вопрос</span>
           {unreadCount > 0 && (
